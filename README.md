@@ -1,86 +1,129 @@
 ```mermaid
 classDiagram
-    class Users {
-        +id: UUID
-        +nombre: String
+    class User {
+        +id: Int
+        +name: String
         +email: String
-        +contraseña: String
-        +telefono: String
-        +rol: String
-        +fecha_creacion: Date
+        +password: String
+        +phone: String
+        +role_id: Int
+        +image_id: Int
+        +wishlist_id: Int
     }
-    
-    class ShippingAddresses {
-        +id: UUID
-        +usuario_id: UUID
-        +direccion: String
-        +ciudad: String
-        +codigo_postal: String
-        +pais: String
-        +telefono: String
+
+    class Role {
+        +id: Int
+        +name: String
     }
-    
-    class Products {
-        +id: UUID
-        +nombre: String
-        +descripcion: String
-        +precio: Float
+
+    class Address {
+        +id: Int
+        +user_id: Int
+        +city: String
+        +postal_code: String
+        +address: String
+        +country: String
+        +phone: String
+    }
+
+    class Product {
+        +id: Int
+        +name: String
+        +description: String
+        +price: Float
         +stock: Int
-        +imagen: String
-        +categoria_id: UUID
-        +fecha_creacion: Date
+        +available: Boolean
     }
-    
-    class Categories {
-        +id: UUID
-        +nombre: String
-        +descripcion: String
+
+    class Category {
+        +id: Int
+        +name: String
+        +description: String
     }
-    
-    class Discounts {
-        +id: UUID
-        +codigo: String
-        +porcentaje: Float
-        +fecha_expiracion: Date
+
+    class PromotionCode {
+        +id: Int
+        +code: String
+        +percentage: Float
+        +expiration_date: Date
+        +uses: Int
     }
-    
+
+    class ProductDiscount {
+        +id: Int
+        +product_id: Int
+        +percentage: Float
+        +expiration_date: Date
+    }
+
     class Cart {
-        +id: UUID
-        +usuario_id: UUID
+        +id: Int
+        +user_id: Int
     }
-    
-    class Cart_Items {
-        +id: UUID
-        +carrito_id: UUID
-        +producto_id: UUID
-        +cantidad: Int
-    }
-    
-    class Orders {
-        +id: UUID
-        +usuario_id: UUID
-        +direccion_envio_id: UUID
+
+    class Order {
+        +id: Int
+        +user_id: Int
+        +full_address: String
         +total: Float
-        +estado: String
-        +fecha_compra: Date
+        +status: String
+        +purchase_date: Date
+        +promotion_code_id: Int
     }
-    
-    class Payments {
-        +id: UUID
-        +compra_id: UUID
-        +metodo_pago: String
-        +estado_pago: String
-        +fecha: Date
+
+    class Invoice {
+        +id: Int
+        +order_id: Int
+        +issue_date: Date
+        +tax_percentage: Float
+        +total_amount: Float
     }
-    
-    Users "1" -- "*" ShippingAddresses : tiene
-    Users "1" -- "1" Cart : tiene
-    Users "1" -- "*" Orders : realiza
-    Orders "1" -- "1" ShippingAddresses : usa
-    Orders "1" -- "1" Payments : tiene
-    Orders "1" -- "*" Products : contiene
-    Cart "1" -- "*" Cart_Items : contiene
-    Cart_Items "*" -- "1" Products : incluye
-    Products "*" -- "1" Categories : pertenece
-    Orders "*" -- "1" Discounts : aplica
+
+    class Payment {
+        +id: Int
+        +order_id: Int
+        +card_number: String
+        +payment_status: Boolean
+    }
+
+    class PaymentMethod {
+        +id: Int
+        +user_id: Int
+        +card_number: String
+        +expiration_date: Date
+        +cvv: Int
+    }
+
+    class Image {
+        +id: Int
+        +product_id: Int
+        +url: String
+    }
+
+    class WishList {
+        +id: Int
+        +user_id: Int
+    }
+
+    User "1" -- "*" Address : has
+    User "1" -- "1" Cart : adds
+    User "1" -- "*" Order : places
+    User "1" -- "*" PaymentMethod : owns
+    User "1" -- "*" Role : has
+    User "1" -- "1" Image : has
+    User "1" -- "1" WishList : has
+
+    Order "1" -- "1" Address : uses
+    Order "1" -- "1" Payment : has
+    Order "1" -- "1" Invoice : generates
+    Order "1" -- "1" PromotionCode : applies
+    Order "*" -- "*" Product : contains
+
+    Payment "*" -- "1" PaymentMethod : uses
+
+    Cart "*" -- "*" Product : includes --- +quantity
+    Product "*" -- "*" Category : belongs to
+    Product "1" -- "1" ProductDiscount : has
+    Product "1" -- "*" Image : has
+    WishList "*" -- "*" Product : contains
 ```
