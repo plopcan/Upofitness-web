@@ -12,3 +12,6 @@ Route::resource('invoices', InvoiceController::class);
 Route::resource('promotion-codes', PromotionCodeController::class);
 Route::resource('payment-methods', PaymentMethodController::class);
 
+Route::resource('products', ProductController::class);
+Route::resource('categories', CategoryController::class);
+Route::resource('productDiscount', ProductDiscountController::class);
