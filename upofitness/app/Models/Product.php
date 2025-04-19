@@ -31,4 +31,14 @@ class Product extends Model
     {
         return $this->hasOne(ProductDiscount::class, 'product_id');
     }
+
+    public function carts()
+    {
+        return $this->belongsToMany(Cart::class, 'cart_product')->withPivot('quantity');
+    }
+
+    public function wishlists()
+    {
+        return $this->belongsToMany(Wishlist::class, 'wishlist_product');
+    }
 }

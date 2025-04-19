@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('status'); 
             $table->date('purchase_date'); 
             //$table->foreignId('promotion_code_id')->nullable()->constrained();
-           // $table->foreignId('user_id')->constrained(); 
+            $table->foreignId('usuario_id')->constrained(); 
             $table->timestamps(); 
         });
     }
