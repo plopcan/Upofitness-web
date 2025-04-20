@@ -40,7 +40,8 @@ class ProductController extends Controller
             'stock' => 'required|integer',
             'available' => 'required|boolean',
             'categories' => 'array', // Validate categories as an array
-            'categories.*' => 'exists:categories,id', // Ensure each category exists
+            'categories.*' => 'exists:categories,id', // Ensure each category exists,
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif', // Validación de imágenes
         ]);
 
         $product = Product::create($validatedData);
@@ -48,7 +49,15 @@ class ProductController extends Controller
         if ($request->has('categories')) {
             $product->categories()->sync($request->categories); // Sync categories
         }
-
+    // Subir y guardar las imágenes
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $image) {
+            $path = $image->store('images', 'public'); // Guardar en storage/app/public/images
+            $product->images()->create(['url' => $path]);
+        }
+    } else {
+        \Log::info('No images found in the request.');
+    }
         return redirect()->route('products.index')->with('success', 'Product created successfully');
     }
 
@@ -80,6 +89,7 @@ class ProductController extends Controller
             'available' => 'sometimes|required|boolean',
             'categories' => 'array', // Validate categories as an array
             'categories.*' => 'exists:categories,id', // Ensure each category exists
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validación de imágenes
         ]);
 
         $product->update($validatedData);
@@ -88,6 +98,16 @@ class ProductController extends Controller
             $product->categories()->sync($request->categories); // Sync categories
         }
 
+    // Subir y guardar las imágenes
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $image) {
+            \Log::info('Uploading image: ' . $image->getClientOriginalName());
+            $path = $image->store('images', 'public'); // Guardar en storage/app/public/images
+            $product->images()->create(['url' => $path]);
+        }
+    } else {
+        \Log::info('No images found in the request.');
+    }
         return redirect()->route('products.index')->with('success', 'Product updated successfully');
     }
 
@@ -102,5 +122,28 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('products.index')->with('success', 'Product deleted successfully');
+    }
+
+    public function deleteImage($productId, $imageId)
+    {
+        $product = Product::find($productId);
+
+        if (!$product) {
+            return redirect()->route('products.index')->with('error', 'Product not found');
+        }
+
+        $image = $product->images()->find($imageId);
+
+        if (!$image) {
+            return redirect()->route('products.edit', $productId)->with('error', 'Image not found');
+        }
+
+        // Eliminar el archivo de almacenamiento
+        \Storage::delete('public/' . $image->url);
+
+        // Eliminar el registro de la base de datos
+        $image->delete();
+
+        return redirect()->route('products.edit', $productId)->with('success', 'Image deleted successfully');
     }
 }
