@@ -4,70 +4,81 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ProductDiscount;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Product;
 
 class ProductDiscountController extends Controller
 {
     public function index()
     {
-        $discounts = ProductDiscount::all();
-        return response()->json($discounts);
+        $discounts = ProductDiscount::with('product')->get();
+        return view('productDiscount.index', compact('discounts'));
     }
 
     public function show($id)
     {
-        $discount = ProductDiscount::find($id);
+        $discount = ProductDiscount::with('product')->find($id);
         if (!$discount) {
-            return response()->json(['message' => 'Discount not found'], 404);
+            return redirect()->route('productDiscount.index')->with('error', 'Discount not found');
         }
-        return response()->json($discount);
+        return view('productDiscount.show', compact('discount'));
+    }
+
+    public function create()
+    {
+        $products = Product::all();
+        return view('productDiscount.create', compact('products'));
     }
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validatedData = $request->validate([
             'product_id' => 'required|exists:products,id',
             'percentage' => 'required|numeric|min:0|max:100',
             'expiration_date' => 'required|date|after:today',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        ProductDiscount::create($validatedData);
 
-        $discount = ProductDiscount::create($request->all());
-        return response()->json($discount, 201);
+        return redirect()->route('productDiscount.index')->with('success', 'Discount created successfully');
+    }
+
+    public function edit($id)
+    {
+        $discount = ProductDiscount::find($id);
+        if (!$discount) {
+            return redirect()->route('productDiscount.index')->with('error', 'Discount not found');
+        }
+        $products = Product::all();
+        return view('productDiscount.edit', compact('discount', 'products'));
     }
 
     public function update(Request $request, $id)
     {
         $discount = ProductDiscount::find($id);
         if (!$discount) {
-            return response()->json(['message' => 'Discount not found'], 404);
+            return redirect()->route('productDiscount.index')->with('error', 'Discount not found');
         }
 
-        $validator = Validator::make($request->all(), [
-            'product_id' => 'sometimes|exists:products,id',
-            'percentage' => 'sometimes|numeric|min:0|max:100',
-            'expiration_date' => 'sometimes|date|after:today',
+        $validatedData = $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'percentage' => 'required|numeric|min:0|max:100',
+            'expiration_date' => 'required|date|after:today',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        $discount->update($validatedData);
 
-        $discount->update($request->all());
-        return response()->json($discount);
+        return redirect()->route('productDiscount.index')->with('success', 'Discount updated successfully');
     }
 
     public function destroy($id)
     {
         $discount = ProductDiscount::find($id);
         if (!$discount) {
-            return response()->json(['message' => 'Discount not found'], 404);
+            return redirect()->route('productDiscount.index')->with('error', 'Discount not found');
         }
 
         $discount->delete();
-        return response()->json(['message' => 'Discount deleted successfully']);
+
+        return redirect()->route('productDiscount.index')->with('success', 'Discount deleted successfully');
     }
 }

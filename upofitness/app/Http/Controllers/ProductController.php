@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
     public function index()
     {
         $products = Product::all();
-        return response()->json($products);
+        return view('products.index', compact('products'));
     }
 
     public function show($id)
@@ -18,10 +19,16 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         if (!$product) {
-            return response()->json(['message' => 'Product not found'], 404);
+            return redirect()->route('products.index')->with('error', 'Product not found');
         }
 
-        return response()->json($product);
+        return view('products.show', compact('product'));
+    }
+
+    public function create()
+    {
+        $categories = Category::all(); // Fetch all categories
+        return view('products.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -32,11 +39,29 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'stock' => 'required|integer',
             'available' => 'required|boolean',
+            'categories' => 'array', // Validate categories as an array
+            'categories.*' => 'exists:categories,id', // Ensure each category exists
         ]);
 
         $product = Product::create($validatedData);
 
-        return response()->json($product, 201);
+        if ($request->has('categories')) {
+            $product->categories()->sync($request->categories); // Sync categories
+        }
+
+        return redirect()->route('products.index')->with('success', 'Product created successfully');
+    }
+
+    public function edit($id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            return redirect()->route('products.index')->with('error', 'Product not found');
+        }
+
+        $categories = Category::all(); // Fetch all categories
+        return view('products.edit', compact('product', 'categories'));
     }
 
     public function update(Request $request, $id)
@@ -44,7 +69,7 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         if (!$product) {
-            return response()->json(['message' => 'Product not found'], 404);
+            return redirect()->route('products.index')->with('error', 'Product not found');
         }
 
         $validatedData = $request->validate([
@@ -53,11 +78,17 @@ class ProductController extends Controller
             'price' => 'sometimes|required|numeric',
             'stock' => 'sometimes|required|integer',
             'available' => 'sometimes|required|boolean',
+            'categories' => 'array', // Validate categories as an array
+            'categories.*' => 'exists:categories,id', // Ensure each category exists
         ]);
 
         $product->update($validatedData);
 
-        return response()->json($product);
+        if ($request->has('categories')) {
+            $product->categories()->sync($request->categories); // Sync categories
+        }
+
+        return redirect()->route('products.index')->with('success', 'Product updated successfully');
     }
 
     public function destroy($id)
@@ -65,11 +96,11 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         if (!$product) {
-            return response()->json(['message' => 'Product not found'], 404);
+            return redirect()->route('products.index')->with('error', 'Product not found');
         }
 
         $product->delete();
 
-        return response()->json(['message' => 'Product deleted successfully']);
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully');
     }
 }
