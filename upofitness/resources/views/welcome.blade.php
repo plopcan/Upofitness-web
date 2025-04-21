@@ -27,6 +27,7 @@
                         <a href="{{ route('products.index') }}" class="btn btn-primary">productos</a>
                         <a href="{{ route('productDiscount.index') }}" class="btn btn-primary">descuentos productos</a>
                         <a href="{{ route('categories.index') }}" class="btn btn-primary">categorías</a>
+                        <a href="{{ route('login') }}" class="btn btn-secondary">Iniciar Sesión</a> <!-- Botón añadido -->
                     </main>
 
                     <footer class="py-16 text-center text-sm text-black dark:text-white/70 mt-auto">

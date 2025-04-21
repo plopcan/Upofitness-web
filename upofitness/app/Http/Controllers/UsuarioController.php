@@ -61,4 +61,31 @@ class UsuarioController extends Controller
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario deleted successfully.');
     }
+
+    // Nuevo método para manejar el inicio de sesión
+    public function login(Request $request)
+    {
+        $request->validate([
+            'role' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        // Simulación de autenticación
+        $usuario = Usuario::where('email', $request->email)->where('password', $request->password)->first();
+
+        if ($usuario) {
+            if ($usuario->role->name === $request->role) {
+                if ($request->role === 'usuario') {
+                    return redirect()->route('usuario');
+                } elseif ($request->role === 'administrador') {
+                    return redirect()->route('admin');
+                }
+            } else {
+                return back()->withErrors(['role' => 'El rol no coincide con el usuario.']);
+            }
+        }
+
+        return back()->withErrors(['email' => 'Credenciales incorrectas.']);
+    }
 }

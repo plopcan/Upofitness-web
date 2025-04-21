@@ -18,6 +18,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/login', function () {
+    return view('login');
+})->name('login');
+
+Route::post('/login', [UsuarioController::class, 'login'])->name('login.submit');
+
+Route::get('/usuario', function () {
+    return view('usuario');
+})->name('usuario');
+
+Route::get('/admin', function () {
+    return view('admin');
+})->name('admin');
+
 Route::resource('orders', OrderController::class);
 Route::resource('payments', PaymentController::class);
 Route::resource('invoices', InvoiceController::class);
