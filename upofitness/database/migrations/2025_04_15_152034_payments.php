@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('card_number'); 
             $table->boolean('payment_status')->default(false);
             $table->timestamps();
-            $table->foreignId('orders_id')->constrained(); 
+            $table->foreignId('orders_id');
         });
     }
 

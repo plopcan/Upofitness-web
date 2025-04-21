@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone')->nullable();
-            $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
-            $table->foreignId('image_id')->nullable()->constrained('images')->onDelete('set null');
+            $table->foreignId('role_id');
+            $table->foreignId('image_id')->nullable();
             $table->timestamps();
         });
     }

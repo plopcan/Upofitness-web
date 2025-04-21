@@ -17,7 +17,7 @@ return new class extends Migration
             $table->float('tax_percentage'); 
             $table->float('total_amount'); 
             $table->timestamps(); 
-            $table->foreignId('orders_id')->constrained();
+            $table->foreignId('orders_id');
         });
     }
 
