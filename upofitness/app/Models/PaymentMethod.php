@@ -10,15 +10,15 @@ class PaymentMethod extends Model
   use HasFactory;
   
   protected $fillable = [
-    'user_id',
+    'usuario_id',
     'card_number',
     'expiration_date',
     'cvv',
     ];
 
-    public function user()
+    public function usuario()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Usuario::class);
     }
 
     public function payment()
