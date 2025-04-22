@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\PaymentMethod;
 
 class PaymentMethodController extends Controller
 {
@@ -11,7 +12,8 @@ class PaymentMethodController extends Controller
      */
     public function index()
     {
-        //
+        $paymentMethods = PaymentMethod::all();
+        return response()->json($paymentMethods);
     }
 
     /**
@@ -19,7 +21,7 @@ class PaymentMethodController extends Controller
      */
     public function create()
     {
-        //
+        return view('payment_methods.create');
     }
 
     /**
@@ -27,7 +29,15 @@ class PaymentMethodController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'usuario_id' => 'required|integer|exists:usuarios,id',
+            'card_number' => 'required|string|max:16',
+            'expiration_date' => 'required|date_format:Y-m-d',
+            'cvv' => 'required|string|max:4',
+        ]);
+
+        $paymentMethod = PaymentMethod::create($validatedData);
+        return response()->json($paymentMethod, 201);
     }
 
     /**
@@ -35,7 +45,8 @@ class PaymentMethodController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $paymentMethod = PaymentMethod::findOrFail($id);
+        return response()->json($paymentMethod);
     }
 
     /**
@@ -43,7 +54,8 @@ class PaymentMethodController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $paymentMethod = PaymentMethod::findOrFail($id);
+        return view('payment_methods.edit', compact('paymentMethod'));
     }
 
     /**
@@ -51,7 +63,17 @@ class PaymentMethodController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+            'usuario_id' => 'required|integer|exists:usuarios,id',
+            'card_number' => 'required|string|max:16',
+            'expiration_date' => 'required|date_format:Y-m-d',
+            'cvv' => 'required|string|max:4',
+        ]);
+
+        $paymentMethod = PaymentMethod::findOrFail($id);
+        $paymentMethod->update($validatedData);
+
+        return response()->json($paymentMethod);
     }
 
     /**
@@ -59,6 +81,9 @@ class PaymentMethodController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $paymentMethod = PaymentMethod::findOrFail($id);
+        $paymentMethod->delete();
+
+        return response()->json(['message' => 'Payment method deleted successfully']);
     }
 }

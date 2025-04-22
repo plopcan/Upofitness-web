@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -11,7 +12,8 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+        $payments = Payment::all();
+        return response()->json($payments);
     }
 
     /**
@@ -19,7 +21,7 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        //
+        // Typically, this would return a view for creating a payment.
     }
 
     /**
@@ -27,7 +29,14 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'order_id' => 'required|integer',
+            'card_number' => 'required|string',
+            'payment_status' => 'required|string',
+        ]);
+
+        $payment = Payment::create($validatedData);
+        return response()->json($payment, 201);
     }
 
     /**
@@ -35,7 +44,8 @@ class PaymentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $payment = Payment::findOrFail($id);
+        return response()->json($payment);
     }
 
     /**
@@ -43,7 +53,7 @@ class PaymentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // Typically, this would return a view for editing a payment.
     }
 
     /**
@@ -51,7 +61,15 @@ class PaymentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+            'order_id' => 'integer',
+            'card_number' => 'string',
+            'payment_status' => 'string',
+        ]);
+
+        $payment = Payment::findOrFail($id);
+        $payment->update($validatedData);
+        return response()->json($payment);
     }
 
     /**
@@ -59,6 +77,8 @@ class PaymentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $payment = Payment::findOrFail($id);
+        $payment->delete();
+        return response()->json(['message' => 'Payment deleted successfully']);
     }
 }
