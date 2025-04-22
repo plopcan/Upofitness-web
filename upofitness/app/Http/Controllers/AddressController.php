@@ -21,7 +21,7 @@ class AddressController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|exists:usuarios,id',
+            'usuario_id' => 'required|exists:usuarios,id',
             'city' => 'required|string|max:255',
             'postal_code' => 'required|string|max:10',
             'address' => 'required|string|max:255',
@@ -42,7 +42,7 @@ class AddressController extends Controller
     public function update(Request $request, Address $address)
     {
         $request->validate([
-            'user_id' => 'required|exists:usuarios,id',
+            'usuario_id' => 'required|exists:usuarios,id',
             'city' => 'required|string|max:255',
             'postal_code' => 'required|string|max:10',
             'address' => 'required|string|max:255',
