@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('status'); 
             $table->date('purchase_date'); 
             $table->integer('quantity');
-            $table->foreignId('promotion_code_id');
-            $table->foreignId('product_id');
-            $table->foreignId('usuario_id');
+            $table->foreignId('promotion_code_id')->nullable()->constrained('promotion_codes')->onDelete('set null');
+            $table->foreignId('product_id')->constrained('products');
+            $table->foreignId('usuario_id')->constrained('usuarios');
             $table->timestamps(); 
         });
     }

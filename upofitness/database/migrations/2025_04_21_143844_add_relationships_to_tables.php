@@ -41,11 +41,11 @@ return new class extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
 
-        Schema::table('orders', function (Blueprint $table) {
-            $table->foreign('usuario_id')->references('id')->on('usuarios');
-            $table->foreign('promotion_code_id')->references('id')->on('promotion_codes');
-            $table->foreign('product_id')->references('id')->on('products');
-        });
+      //  Schema::table('orders', function (Blueprint $table) {
+        //    $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
+          //  $table->foreign('promotion_code_id')->references('id')->on('promotion_codes');
+           // $table->foreign('product_id')->references('id')->on('products');
+        //});
 
         Schema::table('payments', function (Blueprint $table) {
             $table->foreign('orders_id')->references('id')->on('orders');
