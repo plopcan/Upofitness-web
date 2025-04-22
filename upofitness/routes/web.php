@@ -16,7 +16,7 @@ use App\Http\Controllers\PaymentMethodController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::get('/login', function () {
     return view('login');
@@ -48,3 +48,5 @@ Route::resource('usuarios', UsuarioController::class);
 Route::resource('roles', RoleController::class);
 Route::resource('carts', CartController::class);
 Route::resource('addresses', AddressController::class);
+
+Route::get('/productos', [ProductController::class, 'index'])->name('productos.index');
