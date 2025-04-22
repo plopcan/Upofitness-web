@@ -44,6 +44,7 @@ return new class extends Migration
         Schema::table('orders', function (Blueprint $table) {
             $table->foreign('usuario_id')->references('id')->on('usuarios');
             $table->foreign('promotion_code_id')->references('id')->on('promotion_codes');
+            $table->foreign('product_id')->references('id')->on('products');
         });
 
         Schema::table('payments', function (Blueprint $table) {
@@ -92,6 +93,8 @@ return new class extends Migration
 
         Schema::table('orders', function (Blueprint $table) {
             $table->dropForeign(['usuario_id']);
+            $table->dropForeign(['promotion_code_id']);
+            $table->dropForeign(['product_id']);
         });
 
         Schema::table('payments', function (Blueprint $table) {

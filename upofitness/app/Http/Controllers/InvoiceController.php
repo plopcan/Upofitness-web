@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Invoice;
+use App\Models\Order;
 
 class InvoiceController extends Controller
 {
@@ -11,7 +13,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        //
+        return Invoice::all();
     }
 
     /**
@@ -19,7 +21,7 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        //
+        return view('invoices.create');
     }
 
     /**
@@ -27,7 +29,24 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'orders_id' => 'required|array',
+            'tax_percentage' => 'required|numeric|min:0|max:100',
+        ]);
+
+        $orders = Order::whereIn('id', $request->orders_id)->get();
+        $totalOrdersAmount = $orders->sum('total_price');
+        $taxAmount = $totalOrdersAmount * ($request->tax_percentage / 100);
+        $totalAmount = $totalOrdersAmount + $taxAmount;
+
+        $invoice = Invoice::create([
+            'issue_date' => now(),
+            'tax_percentage' => $request->tax_percentage,
+            'total_amount' => $totalAmount,
+            'orders_id' => json_encode($request->orders_id),
+        ]);
+
+        return response()->json($invoice, 201);
     }
 
     /**
@@ -35,7 +54,8 @@ class InvoiceController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $invoice = Invoice::findOrFail($id);
+        return response()->json($invoice);
     }
 
     /**
@@ -43,7 +63,8 @@ class InvoiceController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $invoice = Invoice::findOrFail($id);
+        return view('invoices.edit', compact('invoice'));
     }
 
     /**
@@ -51,7 +72,23 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'tax_percentage' => 'nullable|numeric|min:0|max:100',
+        ]);
+
+        $invoice = Invoice::findOrFail($id);
+
+        if ($request->has('tax_percentage')) {
+            $orders = Order::whereIn('id', json_decode($invoice->orders_id))->get();
+            $totalOrdersAmount = $orders->sum('total_price');
+            $taxAmount = $totalOrdersAmount * ($request->tax_percentage / 100);
+            $invoice->total_amount = $totalOrdersAmount + $taxAmount;
+            $invoice->tax_percentage = $request->tax_percentage;
+        }
+
+        $invoice->save();
+
+        return response()->json($invoice);
     }
 
     /**
@@ -59,6 +96,9 @@ class InvoiceController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $invoice = Invoice::findOrFail($id);
+        $invoice->delete();
+
+        return response()->json(['message' => 'Invoice deleted successfully']);
     }
 }

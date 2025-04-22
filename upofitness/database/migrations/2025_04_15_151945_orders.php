@@ -17,7 +17,9 @@ return new class extends Migration
             $table->float('total');
             $table->string('status'); 
             $table->date('purchase_date'); 
+            $table->integer('quantity');
             $table->foreignId('promotion_code_id');
+            $table->foreignId('product_id');
             $table->foreignId('usuario_id');
             $table->timestamps(); 
         });
