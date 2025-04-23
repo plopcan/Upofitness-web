@@ -15,15 +15,9 @@ class ProductController extends Controller
         return view('producto', compact('products', 'categories'));
     }
 
-    public function show($id)
+    public function show(Product $product)
     {
-        $product = Product::find($id);
-
-        if (!$product) {
-            return redirect()->route('products.index')->with('error', 'Product not found');
-        }
-
-        return view('products.show', compact('product'));
+        return view('producto-detalle', compact('product'));
     }
 
     public function create()

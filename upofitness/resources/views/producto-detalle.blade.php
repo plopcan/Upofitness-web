@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $product->name }} | Upofitness</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body>
+    <!-- Navbar aquí... -->
+    
+    <main class="mt-6 flex-grow-1">
+        <div class="container">
+            <h1 class="text-center mb-4">{{ $product->name }}</h1>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    @if($product->images->count() > 0)
+                        <img src="{{ asset('storage/' . $product->images->first()->url) }}" 
+                             class="img-fluid" alt="{{ $product->name }}">
+                    @else
+                        <img src="https://via.placeholder.com/400" 
+                             class="img-fluid" alt="{{ $product->name }}">
+                    @endif
+                    
+                    @if($product->images->count() > 1)
+                        <div class="product-gallery d-flex overflow-auto py-2">
+                            @foreach($product->images as $image)
+                                <div class="product-thumbnail mx-1">
+                                    <img src="{{ asset('storage/' . $image->url) }}" 
+                                         alt="Imagen del producto"
+                                         style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;">
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+                
+                <div class="col-md-6">
+                    <p>{{ $product->description }}</p>
+                    <p><strong>Precio:</strong> ${{ $product->price }}</p>
+                    <p><strong>Stock:</strong> {{ $product->stock }}</p>
+                    <a href="#" class="btn btn-primary">Añadir al carrito</a>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <h3>Añadir imagen al producto</h3>
+                <form action="{{ route('products.images.store', $product->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group mb-3">
+                        <label for="image">Seleccionar imagen</label>
+                        <input type="file" name="image" id="image" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Subir imagen</button>
+                </form>
+            </div>
+            
+            <div class="mt-4">
+                <h3>Subir múltiples imágenes</h3>
+                <form action="{{ route('products.images.storeMultiple', $product->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group mb-3">
+                        <label for="images">Seleccionar imágenes</label>
+                        <input type="file" name="images[]" id="images" class="form-control" multiple>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Subir imágenes</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer aquí... -->
+</body>
+</html>

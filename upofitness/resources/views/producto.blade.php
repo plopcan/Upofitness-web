@@ -44,13 +44,35 @@
                 @foreach ($products as $product)
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="card shadow-sm">
-                            <img src="{{ $product->image_url ?? 'https://via.placeholder.com/150' }}" class="card-img-top" alt="{{ $product->name }}">
+                            <div class="card-img-container">
+                                @if($product->images->count() > 0)
+                                    <img src="{{ asset('storage/' . $product->images->first()->url) }}" 
+                                         class="card-img-top" alt="{{ $product->name }}">
+                                @else
+                                    <img src="https://via.placeholder.com/150" 
+                                         class="card-img-top" alt="{{ $product->name }}">
+                                @endif
+                            </div>
                             <div class="card-body">
                                 <h5 class="card-title">{{ $product->name }}</h5>
                                 <p class="card-text">{{ $product->description }}</p>
                                 <p class="card-text"><strong>Precio:</strong> ${{ $product->price }}</p>
                                 <p class="card-text"><strong>Stock:</strong> {{ $product->stock }}</p>
+                                
+                                @if($product->images->count() > 1)
+                                    <div class="product-gallery d-flex overflow-auto py-2">
+                                        @foreach($product->images as $image)
+                                            <div class="product-thumbnail mx-1">
+                                                <img src="{{ asset('storage/' . $image->url) }}" 
+                                                     alt="Imagen del producto"
+                                                     style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+                                
                                 <a href="#" class="btn btn-primary">Añadir al carrito</a>
+                                <a href="{{ route('products.show', $product->id) }}" class="btn btn-secondary ms-2">Ver detalle</a>
                             </div>
                         </div>
                     </div>
@@ -61,6 +83,22 @@
             <div class="mt-4">
                 {{ $products->links() }}
             </div>
+
+            <!-- El formulario para subir imágenes debe estar dentro de una página de detalle de producto,
+                 no en la lista general de productos, ya que necesita un $product específico -->
+            @if(isset($singleProduct))
+                <div class="mt-4">
+                    <h3>Añadir imagen al producto</h3>
+                    <form action="{{ route('products.images.store', $singleProduct->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group mb-3">
+                            <label for="image">Seleccionar imagen</label>
+                            <input type="file" name="image" id="image" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Subir imagen</button>
+                    </form>
+                </div>
+            @endif
         </div>
     </main>
 

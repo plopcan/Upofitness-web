@@ -13,6 +13,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PaymentMethodController;
+use App\Http\Controllers\ImageController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -44,6 +45,8 @@ Route::resource('productDiscount', ProductDiscountController::class);
 
 Route::delete('products/{product}/images/{image}', [ProductController::class, 'deleteImage'])->name('products.images.destroy');
 Route::get('/products/category/{categoryId}', [ProductController::class, 'filterByCategory'])->name('products.filterByCategory');
+Route::post('/products/{product}/images', [ImageController::class, 'store'])->name('products.images.store');
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
 Route::resource('usuarios', UsuarioController::class);
 Route::resource('roles', RoleController::class);
@@ -53,3 +56,7 @@ Route::resource('addresses', AddressController::class);
 Route::get('/productos', [ProductController::class, 'index'])->name('productos.index');
 Route::get('/cart/user/{id}', [CartController::class, 'showByUserId'])->name('cart.showByUserId');
 Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+
+Route::resource('products.images', App\Http\Controllers\ImageController::class);
+Route::post('/products/{product}/images/multiple', [App\Http\Controllers\ImageController::class, 'storeMultiple'])
+    ->name('products.images.storeMultiple');
