@@ -60,3 +60,4 @@ Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.c
 Route::resource('products.images', App\Http\Controllers\ImageController::class);
 Route::post('/products/{product}/images/multiple', [App\Http\Controllers\ImageController::class, 'storeMultiple'])
     ->name('products.images.storeMultiple');
+Route::post('/cart/add/{productId}', [CartController::class, 'addToCart'])->name('cart.add');

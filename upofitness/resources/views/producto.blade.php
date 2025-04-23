@@ -71,7 +71,12 @@
                                     </div>
                                 @endif
                                 
-                                <a href="#" class="btn btn-primary">Añadir al carrito</a>
+                                <form action="{{ route('cart.add', ['productId' => $product->id]) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="usuario_id" value="{{ session('usuario_id') }}">
+                                    <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}" class="form-control mb-2">
+                                    <button type="submit" class="btn btn-primary">Añadir al carrito</button>
+                                </form>
                                 <a href="{{ route('products.show', $product->id) }}" class="btn btn-secondary ms-2">Ver detalle</a>
                             </div>
                         </div>
