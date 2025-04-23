@@ -76,6 +76,9 @@ class UsuarioController extends Controller
 
         if ($usuario) {
             if ($usuario->role->name === $request->role) {
+                // Establecer la variable de sesión con el ID del usuario
+                session(['usuario_id' => $usuario->id]);
+
                 if ($request->role === 'usuario') {
                     return redirect()->route('usuario');
                 } elseif ($request->role === 'administrador') {

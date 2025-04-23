@@ -51,4 +51,20 @@ class CartController extends Controller
 
         return redirect()->route('carts.index')->with('success', 'Cart deleted successfully.');
     }
+
+    public function showByUserId($id)
+    {
+        // Verificar si el ID es nulo o si el usuario no está autenticado
+        if ($id === null) {
+            return redirect()->route('login')->with('error', 'Debes iniciar sesión para acceder al carrito.');
+        }
+
+        $cart = Cart::with('products')->where('usuario_id', $id)->first();
+
+        if (!$cart) {
+            return redirect()->route('productos.index')->with('error', 'El carrito está vacío.');
+        }
+
+        return view('cart', compact('cart'));
+    }
 }

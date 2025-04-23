@@ -8,11 +8,21 @@
 <body>
     <nav>
         <a href="{{ route('productos.index') }}">Catálogo</a>
-        <a href="#">Carrito</a>
+        @if (session('usuario_id'))
+            <a href="{{ route('cart.showByUserId', ['id' => session('usuario_id')]) }}">Carrito</a>
+        @else
+            <a href="#" onclick="alert('Debes iniciar sesión para acceder al carrito.')">Carrito</a>
+        @endif
         <a href="#profile">Perfil</a>
     </nav>
 
     <h1>Bienvenido, Usuario</h1>
     <p>Esta es la página principal para usuarios.</p>
+
+    @if (session('usuario_id'))
+        <p><strong>ID de Usuario en Sesión:</strong> {{ session('usuario_id') }}</p>
+    @else
+        <p>No hay un usuario autenticado en la sesión.</p>
+    @endif
 </body>
 </html>
