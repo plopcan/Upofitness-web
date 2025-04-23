@@ -43,6 +43,7 @@ Route::resource('categories', CategoryController::class);
 Route::resource('productDiscount', ProductDiscountController::class);
 
 Route::delete('products/{product}/images/{image}', [ProductController::class, 'deleteImage'])->name('products.images.destroy');
+Route::get('/products/category/{categoryId}', [ProductController::class, 'filterByCategory'])->name('products.filterByCategory');
 
 Route::resource('usuarios', UsuarioController::class);
 Route::resource('roles', RoleController::class);

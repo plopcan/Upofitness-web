@@ -10,8 +10,9 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
-        return view('producto', compact('products'));
+        $products = Product::paginate(10);
+        $categories = Category::all();
+        return view('producto', compact('products', 'categories'));
     }
 
     public function show($id)
@@ -145,5 +146,19 @@ class ProductController extends Controller
         $image->delete();
 
         return redirect()->route('products.edit', $productId)->with('success', 'Image deleted successfully');
+    }
+
+    public function filterByCategory(Request $request, $categoryId)
+    {
+        $category = Category::find($categoryId);
+
+        if (!$category) {
+            return redirect()->route('products.index')->with('error', 'Category not found');
+        }
+
+        $products = $category->products()->paginate(10); 
+        $categories = Category::all();
+
+        return view('producto', compact('products', 'category', 'categories'));
     }
 }

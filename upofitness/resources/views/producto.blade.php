@@ -25,6 +25,21 @@
     <main class="mt-6 flex-grow-1">
         <div class="container">
             <h1 class="text-center mb-4">Productos</h1>
+            
+            <!-- Category Filter -->
+            <details class="mb-4">
+                <summary class="btn btn-secondary">Filtrar por categoría</summary>
+                <ul class="list-group mt-2">
+                    @foreach ($categories as $category)
+                        <li class="list-group-item">
+                            <a href="{{ route('products.filterByCategory', ['categoryId' => $category->id]) }}" class="text-decoration-none">
+                                {{ $category->name }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </details>
+            
             <div class="row">
                 @foreach ($products as $product)
                     <div class="col-lg-4 col-md-6 mb-4">
@@ -40,6 +55,11 @@
                         </div>
                     </div>
                 @endforeach
+            </div>
+            
+            <!-- Pagination -->
+            <div class="mt-4">
+                {{ $products->links() }}
             </div>
         </div>
     </main>
