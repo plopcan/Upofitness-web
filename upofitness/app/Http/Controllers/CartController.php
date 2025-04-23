@@ -56,7 +56,7 @@ class CartController extends Controller
     {
         // Verificar si el ID es nulo o si el usuario no está autenticado
         if ($id === null) {
-            return redirect()->route('login')->with('error', 'Debes iniciar sesión para acceder al carrito.');
+            return response()->view('cart', ['error' => 'Debes iniciar sesión para acceder al carrito.']);
         }
 
         $cart = Cart::with('products')->where('usuario_id', $id)->first();
@@ -66,5 +66,21 @@ class CartController extends Controller
         }
 
         return view('cart', compact('cart'));
+    }
+
+    public function checkout(Request $request)
+    {
+        $cart = Cart::with('products')->where('usuario_id', session('usuario_id'))->first();
+
+        if (!$cart || $cart->products->isEmpty()) {
+            return redirect()->route('cart.showByUserId', ['id' => session('usuario_id')])
+                ->with('error', 'El carrito está vacío.');
+        }
+
+        // Aquí puedes implementar la lógica de pago o procesamiento del pedido
+        $cart->products()->detach(); // Vaciar el carrito después del pago
+
+        return redirect()->route('cart.showByUserId', ['id' => session('usuario_id')])
+            ->with('success', 'Pago realizado con éxito.');
     }
 }

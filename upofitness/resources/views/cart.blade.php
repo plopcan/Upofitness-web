@@ -8,7 +8,18 @@
 </head>
 <body>
     <h1>Carrito de Compras</h1>
-    @if ($cart && $cart->products->count() > 0)
+
+    @if (session('success'))
+        <p class="text-success">{{ session('success') }}</p>
+    @endif
+
+    @if (session('error'))
+        <p class="text-danger">{{ session('error') }}</p>
+    @endif
+
+    @if (isset($error))
+        <p class="text-danger">{{ $error }}</p>
+    @elseif ($cart && $cart->products->count() > 0)
         <table class="table">
             <thead>
                 <tr>

@@ -51,3 +51,4 @@ Route::resource('addresses', AddressController::class);
 
 Route::get('/productos', [ProductController::class, 'index'])->name('productos.index');
 Route::get('/cart/user/{id}', [CartController::class, 'showByUserId'])->name('cart.showByUserId');
+Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
