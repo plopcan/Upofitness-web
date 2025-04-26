@@ -8,8 +8,8 @@
 <body>
     <nav>
         <a href="{{ route('productos.index') }}">Catálogo</a>
-        <a href="{{ route('cart.showByUserId', ['id' => session('usuario_id')]) }}">Carrito</a>
-        <a href="{{ route('wishlist.showByUserId', ['id' => session('usuario_id')]) }}">Lista de Deseos</a>
+        <a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}">Carrito</a> <!-- Use logged-in user's ID -->
+        <a href="{{ route('wishlist.showByUserId', ['id' => Auth::user()->id]) }}">Lista de Deseos</a> <!-- Use logged-in user's ID -->
         <a href="#profile">Perfil</a>
     </nav>
 
