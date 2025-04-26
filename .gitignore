@@ -1,0 +1,14 @@
+upofitness/app/Actions/Fortify/CreateNewUser.php
+upofitness/app/Actions/Fortify/PasswordValidationRules.php
+upofitness/app/Actions/Fortify/ResetUserPassword.php
+upofitness/app/Actions/Fortify/UpdateUserPassword.php
+upofitness/app/Actions/Fortify/UpdateUserProfileInformation.php
+upofitness/app/Providers/AuthServiceProvider.php
+upofitness/app/Providers/BroadcastServiceProvider.php
+upofitness/app/Providers/EventServiceProvider.php
+upofitness/app/Providers/FortifyServiceProvider.php
+upofitness/app/Providers/RouteServiceProvider.php
+upofitness/config/app.php
+upofitness/config/auth.php
+upofitness/config/auth.php
+upofitness/config/fortify.php
