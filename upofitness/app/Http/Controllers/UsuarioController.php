@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Usuario;
+use Illuminate\Support\Facades\Auth;
 
 class UsuarioController extends Controller
 {
@@ -62,29 +63,30 @@ class UsuarioController extends Controller
         return redirect()->route('usuarios.index')->with('success', 'Usuario deleted successfully.');
     }
 
-    // Nuevo método para manejar el inicio de sesión
-    public function login(Request $request)
+    public function authenticate(Request $request)
     {
         $request->validate([
-            'role' => 'required|string',
             'email' => 'required|email',
             'password' => 'required|string',
+            'role' => 'required|string',
         ]);
 
-        // Simulación de autenticación
-        $usuario = Usuario::where('email', $request->email)->where('password', $request->password)->first();
+        
+        if (Auth::guard('web')->attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ])) {
+            $user = Auth::guard('web')->user();
 
-        if ($usuario) {
-            if ($usuario->role->name === $request->role) {
-                // Establecer la variable de sesión con el ID del usuario
-                session(['usuario_id' => $usuario->id]);
-
+            
+            if ($user->role->name === $request->role) {
                 if ($request->role === 'usuario') {
                     return redirect()->route('usuario');
                 } elseif ($request->role === 'administrador') {
                     return redirect()->route('admin');
                 }
             } else {
+                Auth::guard('web')->logout();
                 return back()->withErrors(['role' => 'El rol no coincide con el usuario.']);
             }
         }

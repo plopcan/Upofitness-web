@@ -14,6 +14,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ImageController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,15 +24,15 @@ Route::get('/login', function () {
     return view('login');
 })->name('login');
 
-Route::post('/login', [UsuarioController::class, 'login'])->name('login.submit');
+Route::post('/login', [UsuarioController::class, 'authenticate'])->name('login.submit');
 
 Route::get('/usuario', function () {
     return view('usuario');
-})->name('usuario');
+})->middleware('auth')->name('usuario'); 
 
 Route::get('/admin', function () {
     return view('admin');
-})->name('admin');
+})->middleware('auth')->name('admin');
 
 Route::resource('orders', OrderController::class);
 Route::resource('payments', PaymentController::class);

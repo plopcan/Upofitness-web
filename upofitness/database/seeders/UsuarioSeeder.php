@@ -16,7 +16,7 @@ class UsuarioSeeder extends Seeder
         Usuario::create([
             'name' => 'Usuario Ejemplo',
             'email' => 'usuario@example.com',
-            'password' => 'password', 
+            'password' => bcrypt('password'), 
             'phone' => '123456789',
             'role_id' => 1, 
             'created_at' => now(),
@@ -26,7 +26,7 @@ class UsuarioSeeder extends Seeder
         Usuario::create([
             'name' => 'Administrador Ejemplo',
             'email' => 'admin@example.com',
-            'password' => 'password', 
+            'password' => bcrypt('password'), 
             'phone' => '987654321',
             'role_id' => 2, 
             'created_at' => now(),
@@ -35,7 +35,7 @@ class UsuarioSeeder extends Seeder
         Usuario::create([
             'name' => 'Juan Pérez',
             'email' => 'juan.perez@example.com',
-            'password' => 'password',
+            'password' => bcrypt('password'), // Hash the password
             'phone' => '888888888',
             'role_id' => 1,
             'created_at' => now(),
@@ -45,7 +45,7 @@ class UsuarioSeeder extends Seeder
         Usuario::create([
             'name' => 'Ana Martínez',
             'email' => 'ana.martinez@example.com',
-            'password' => 'password',
+            'password' => bcrypt('password'), // Hash the password
             'phone' => '999999999',
             'role_id' => 1,
             'created_at' => now(),
@@ -104,4 +104,5 @@ Usuario::create([
 ]);
 
         }
+
     }
