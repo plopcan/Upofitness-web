@@ -10,8 +10,10 @@
         <a href="{{ route('productos.index') }}">Catálogo</a>
         @if (session('usuario_id'))
             <a href="{{ route('cart.showByUserId', ['id' => session('usuario_id')]) }}">Carrito</a>
+            <a href="{{ route('wishlist.showByUserId', ['id' => session('usuario_id')]) }}">Lista de Deseos</a>
         @else
             <a href="#" onclick="alert('Debes iniciar sesión para acceder al carrito.')">Carrito</a>
+            <a href="#" onclick="alert('Debes iniciar sesión para acceder a la lista de deseos.')">Lista de Deseos</a>
         @endif
         <a href="#profile">Perfil</a>
     </nav>

@@ -41,6 +41,11 @@
                     <p><strong>Precio:</strong> ${{ $product->price }}</p>
                     <p><strong>Stock:</strong> {{ $product->stock }}</p>
                     <a href="#" class="btn btn-primary">Añadir al carrito</a>
+                    
+                    <form action="{{ route('wishlist.add', ['productId' => $product->id]) }}" method="POST">
+                        @csrf
+                        <button type="submit">Añadir a la lista de deseos</button>
+                    </form>
                 </div>
             </div>
             

@@ -14,6 +14,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\WishlistController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -61,3 +62,8 @@ Route::resource('products.images', App\Http\Controllers\ImageController::class);
 Route::post('/products/{product}/images/multiple', [App\Http\Controllers\ImageController::class, 'storeMultiple'])
     ->name('products.images.storeMultiple');
 Route::post('/cart/add/{productId}', [CartController::class, 'addToCart'])->name('cart.add');
+
+Route::get('/wishlist/{id}', [App\Http\Controllers\WishlistController::class, 'showByUserId'])->name('wishlist.showByUserId');
+Route::post('/wishlist/add/{productId}', [App\Http\Controllers\WishlistController::class, 'addToWishlist'])->name('wishlist.add');
+Route::delete('/wishlist/remove/{productId}', [App\Http\Controllers\WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
+Route::post('/wishlist/clear', [App\Http\Controllers\WishlistController::class, 'clearWishlist'])->name('wishlist.clear');

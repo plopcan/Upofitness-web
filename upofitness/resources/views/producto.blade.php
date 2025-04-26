@@ -71,13 +71,23 @@
                                     </div>
                                 @endif
                                 
-                                <form action="{{ route('cart.add', ['productId' => $product->id]) }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="usuario_id" value="{{ session('usuario_id') }}">
-                                    <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}" class="form-control mb-2">
-                                    <button type="submit" class="btn btn-primary">Añadir al carrito</button>
-                                </form>
-                                <a href="{{ route('products.show', $product->id) }}" class="btn btn-secondary ms-2">Ver detalle</a>
+                                <div class="d-flex flex-wrap gap-2 mb-3">
+                                    <form action="{{ route('cart.add', ['productId' => $product->id]) }}" method="POST" class="me-2">
+                                        @csrf
+                                        <input type="hidden" name="usuario_id" value="{{ session('usuario_id') }}">
+                                        <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}" class="form-control mb-2">
+                                        <button type="submit" class="btn btn-primary">Añadir al carrito</button>
+                                    </form>
+                                    
+                                    <form action="{{ route('wishlist.add', ['productId' => $product->id]) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-danger">
+                                            <i class="bi bi-heart"></i> Añadir a favoritos
+                                        </button>
+                                    </form>
+                                </div>
+                                
+                                <a href="{{ route('products.show', $product->id) }}" class="btn btn-secondary">Ver detalle</a>
                             </div>
                         </div>
                     </div>
