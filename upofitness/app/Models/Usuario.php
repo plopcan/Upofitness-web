@@ -57,7 +57,7 @@ class Usuario extends Authenticatable
 
     public function image()
     {
-        return $this->belongsTo(Image::class);
+        return $this->belongsTo(Image::class, 'image_id', 'id'); // Define the one-to-one relationship using image_id
     }
 
     public function wishlist()

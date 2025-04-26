@@ -72,3 +72,6 @@ Route::post('/logout', function () {
     Auth::logout();
     return redirect()->route('welcome');
 })->name('logout');
+
+Route::get('/profile/edit', [UsuarioController::class, 'edit'])->name('profile.edit')->middleware('auth');
+Route::post('/profile/update', [UsuarioController::class, 'update'])->name('profile.update')->middleware('auth');

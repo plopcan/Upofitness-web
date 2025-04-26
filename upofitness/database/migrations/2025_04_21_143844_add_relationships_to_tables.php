@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('usuarios', function (Blueprint $table) {
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
-            $table->foreign('image_id')->references('id')->on('images')->onDelete('set null');
+            $table->foreign('role_id', 'usuarios_role_id_foreign')->references('id')->on('roles')->onDelete('cascade');
+            $table->foreign('image_id', 'usuarios_image_id_fk')->references('id')->on('images')->onDelete('set null'); // FK for image_id in usuarios
         });
 
         Schema::table('images', function (Blueprint $table) {
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            // Remove the FK definition for product_id here to avoid duplication
         });
 
         Schema::table('addresses', function (Blueprint $table) {
@@ -41,18 +41,12 @@ return new class extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
 
-      //  Schema::table('orders', function (Blueprint $table) {
-        //    $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
-          //  $table->foreign('promotion_code_id')->references('id')->on('promotion_codes');
-           // $table->foreign('product_id')->references('id')->on('products');
-        //});
-
         Schema::table('payments', function (Blueprint $table) {
-            $table->foreign('orders_id')->references('id')->on('orders');
+            $table->foreign('orders_id')->references('id')->on('orders')->onDelete('cascade');
         });
 
         Schema::table('invoices', function (Blueprint $table) {
-            $table->foreign('orders_id')->references('id')->on('orders');
+            $table->foreign('orders_id')->references('id')->on('orders')->onDelete('cascade');
         });
     }
 
@@ -67,7 +61,7 @@ return new class extends Migration
         });
 
         Schema::table('images', function (Blueprint $table) {
-            $table->dropForeign(['product_id']);
+            // No need to drop the FK for product_id here as it was never created
         });
 
         Schema::table('addresses', function (Blueprint $table) {
@@ -88,12 +82,6 @@ return new class extends Migration
         });
 
         Schema::table('product_discounts', function (Blueprint $table) {
-            $table->dropForeign(['product_id']);
-        });
-
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropForeign(['usuario_id']);
-            $table->dropForeign(['promotion_code_id']);
             $table->dropForeign(['product_id']);
         });
 

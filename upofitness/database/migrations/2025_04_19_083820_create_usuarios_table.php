@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone')->nullable();
             $table->foreignId('role_id');
-            $table->foreignId('image_id')->nullable();
+            $table->foreignId('image_id')->nullable()->constrained('images')->nullOnDelete(); // Define the FK for the relationship
             $table->timestamps();
         });
     }

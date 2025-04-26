@@ -17,25 +17,43 @@ class UsuarioController extends Controller
         return view('usuarios.index', compact('usuarios'));
     }
 
-    public function edit(Usuario $usuario)
+    public function edit(Usuario $usuario = null)
     {
-        return view('usuarios.edit', compact('usuario'));
+        $usuario = $usuario ?? Auth::user(); // Use the authenticated user if no specific user is provided
+        return view('usuarios.edit-profile', compact('usuario'));
     }
 
-    public function update(Request $request, Usuario $usuario)
+    public function update(Request $request, Usuario $usuario = null)
     {
+        $usuario = $usuario ?? Auth::user(); // Use the authenticated user if no specific user is provided
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:usuarios,email,' . $usuario->id,
-            'password' => 'nullable|string|min:8',
             'phone' => 'nullable|string|max:15',
-            'role_id' => 'required|exists:roles,id',
-            'image_id' => 'nullable|exists:images,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $usuario->update($request->all());
+        $usuario->name = $request->name;
+        $usuario->email = $request->email;
+        $usuario->phone = $request->phone;
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario updated successfully.');
+        if ($request->hasFile('image')) {
+            if ($usuario->image && Storage::disk('public')->exists($usuario->image->url)) {
+                Storage::disk('public')->delete($usuario->image->url);
+            }
+
+            $path = $request->file('image')->store('profile_images', 'public');
+            $image = new Image();
+            $image->url = $path;
+            $image->save();
+
+            $usuario->image_id = $image->id;
+        }
+
+        $usuario->save();
+
+        return redirect()->route('welcome')->with('success', 'Perfil actualizado correctamente.');
     }
 
     public function destroy(Usuario $usuario)
@@ -107,5 +125,44 @@ class UsuarioController extends Controller
         $usuario->save();
 
         return redirect()->route('login')->with('success', 'Usuario registrado exitosamente.');
+    }
+
+    public function editProfile()
+    {
+        $user = Auth::user();
+        return view('usuarios.edit-profile', compact('user'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:usuarios,email,' . $user->id,
+            'phone' => 'nullable|string|max:15',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+
+        if ($request->hasFile('image')) {
+            if ($user->image && Storage::disk('public')->exists($user->image->url)) {
+                Storage::disk('public')->delete($user->image->url);
+            }
+
+            $path = $request->file('image')->store('profile_images', 'public');
+            $image = new Image();
+            $image->url = $path;
+            $image->save();
+
+            $user->image_id = $image->id;
+        }
+
+        $user->save();
+
+        return redirect()->route('profile.edit')->with('success', 'Perfil actualizado correctamente.');
     }
 }

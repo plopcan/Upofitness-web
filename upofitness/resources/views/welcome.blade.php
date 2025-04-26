@@ -29,8 +29,13 @@
                             @csrf
                             <button type="submit" class="btn btn-secondary link-button">Cerrar Sesión</button>
                         </form>
-                    @else
-                        <a href="{{ route('login') }}" class="btn btn-secondary link-button">Iniciar Sesión</a>
+                        <a href="{{ route('profile.edit') }}" class="profile-button">
+                            <img src="{{ Auth::user()->image ? asset('storage/app/public/' . Auth::user()->image->url) : 'https://via.placeholder.com/50' }}" 
+                                 alt="Perfil" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                        </a>
+                        <pre>
+                            {{ print_r(Auth::user()->toArray(), true) }} <!-- Debugging output for Auth::user() -->
+                        </pre>
                     @endauth
                 </nav>
             </div>
