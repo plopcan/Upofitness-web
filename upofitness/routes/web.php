@@ -27,10 +27,6 @@ Route::get('/login', function () {
 
 Route::post('/login', [UsuarioController::class, 'authenticate'])->name('login.submit');
 
-Route::get('/usuario', function () {
-    return view('usuario');
-})->middleware('auth')->name('usuario'); 
-
 Route::get('/admin', function () {
     return view('admin');
 })->middleware('auth')->name('admin');
@@ -71,3 +67,8 @@ Route::post('/wishlist/clear', [App\Http\Controllers\WishlistController::class, 
 
 Route::get('/register', [UsuarioController::class, 'create'])->name('register'); // Render form
 Route::post('/register', [UsuarioController::class, 'store'])->name('register.submit'); // Handle submission
+
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect()->route('welcome');
+})->name('logout');

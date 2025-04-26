@@ -14,7 +14,6 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="d-flex flex-column min-vh-100">
-    <!-- Navbar -->
     <header class="navbar-style-7 position-relative bg-dark text-white">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-3">
@@ -23,14 +22,36 @@
                     <a href="{{ route('products.index') }}" class="btn btn-primary link-button">Productos</a>
                     <a href="{{ route('productDiscount.index') }}" class="btn btn-primary link-button">Descuentos Productos</a>
                     <a href="{{ route('categories.index') }}" class="btn btn-primary link-button">Categorías</a>
-                    <a href="{{ route('login') }}" class="btn btn-secondary link-button">Iniciar Sesión</a>
+                    @auth
+                        <a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">Carrito</a>
+                        <a href="{{ route('wishlist.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">Lista de Deseos</a>
+                        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-secondary link-button">Cerrar Sesión</button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-secondary link-button">Iniciar Sesión</a>
+                    @endauth
                 </nav>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="mt-6 flex-grow-1">
+        <h1>
+            @auth
+                Bienvenido, {{ Auth::user()->name }}
+            @else
+                Bienvenido a Upofitness
+            @endauth
+        </h1>
+        <p>
+            @auth
+                Esta es la página principal para usuarios.
+            @else
+                Gestiona personas, usuarios y libros de manera eficiente.
+            @endauth
+        </p>
         <section class="header-style-1">
             <div class="header-big">
                 <div class="header-items-active">
@@ -61,8 +82,12 @@
                     <ul class="list-unstyled">
                         <li><a href="{{ route('products.index') }}" class="text-white">Productos</a></li>
                         <li><a href="{{ route('categories.index') }}" class="text-white">Categorías</a></li>
-                        <li><a href="{{ route('login') }}" class="text-white">Iniciar Sesión</a></li>
-
+                        @auth
+                            <li><a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="text-white">Carrito</a></li>
+                            <li><a href="{{ route('wishlist.showByUserId', ['id' => Auth::user()->id]) }}" class="text-white">Lista de Deseos</a></li>
+                        @else
+                            <li><a href="{{ route('login') }}" class="text-white">Iniciar Sesión</a></li>
+                        @endauth
                     </ul>
                 </div>
                 <!-- Contact Info -->

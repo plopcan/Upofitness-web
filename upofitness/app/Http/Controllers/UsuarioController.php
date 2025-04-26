@@ -53,20 +53,14 @@ class UsuarioController extends Controller
             'role' => 'required|string',
         ]);
 
-        
         if (Auth::guard('web')->attempt([
             'email' => $request->email,
             'password' => $request->password
         ])) {
             $user = Auth::guard('web')->user();
 
-            
             if ($user->role->name === $request->role) {
-                if ($request->role === 'usuario') {
-                    return redirect()->route('usuario');
-                } elseif ($request->role === 'administrador') {
-                    return redirect()->route('admin');
-                }
+                return redirect()->route('welcome'); // Redirect to welcome page
             } else {
                 Auth::guard('web')->logout();
                 return back()->withErrors(['role' => 'El rol no coincide con el usuario.']);

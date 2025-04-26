@@ -40,12 +40,16 @@
                     <p>{{ $product->description }}</p>
                     <p><strong>Precio:</strong> ${{ $product->price }}</p>
                     <p><strong>Stock:</strong> {{ $product->stock }}</p>
-                    <a href="#" class="btn btn-primary">Añadir al carrito</a>
                     
-                    <form action="{{ route('wishlist.add', ['productId' => $product->id]) }}" method="POST">
-                        @csrf
-                        <button type="submit">Añadir a la lista de deseos</button>
-                    </form>
+                    @auth
+                        <a href="{{ route('cart.add', ['productId' => $product->id]) }}" class="btn btn-primary">Añadir al carrito</a>
+                        <form action="{{ route('wishlist.add', ['productId' => $product->id]) }}" method="POST" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-secondary">Añadir a la lista de deseos</button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-primary">Iniciar Sesión</a>
+                    @endauth
                 </div>
             </div>
             

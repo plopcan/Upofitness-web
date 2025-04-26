@@ -15,7 +15,12 @@
                 <nav>
                     <a href="{{ route('welcome') }}" class="btn btn-primary link-button">Inicio</a>
                     <a href="{{ route('categories.index') }}" class="btn btn-primary link-button">Categorías</a>
-                    <a href="{{ route('login') }}" class="btn btn-secondary link-button">Iniciar Sesión</a>
+                    @auth
+                        <a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">Carrito</a>
+                        <a href="{{ route('wishlist.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">Lista de Deseos</a>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-secondary link-button">Iniciar Sesión</a>
+                    @endauth
                 </nav>
             </div>
         </div>
