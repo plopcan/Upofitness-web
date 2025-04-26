@@ -18,13 +18,7 @@
         <a href="#profile">Perfil</a>
     </nav>
 
-    <h1>Bienvenido, Usuario</h1>
+    <h1>Bienvenido, {{ Auth::user()->name }}</h1> <!-- Display the logged-in user's name -->
     <p>Esta es la página principal para usuarios.</p>
-
-    @if (session('usuario_id'))
-        <p><strong>ID de Usuario en Sesión:</strong> {{ session('usuario_id') }}</p>
-    @else
-        <p>No hay un usuario autenticado en la sesión.</p>
-    @endif
 </body>
 </html>

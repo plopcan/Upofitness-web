@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Usuario;
+use App\Models\Image;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UsuarioController extends Controller
 {
@@ -12,27 +15,6 @@ class UsuarioController extends Controller
     {
         $usuarios = Usuario::all();
         return view('usuarios.index', compact('usuarios'));
-    }
-
-    public function create()
-    {
-        return view('usuarios.create');
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:usuarios,email',
-            'password' => 'required|string|min:8',
-            'phone' => 'nullable|string|max:15',
-            'role_id' => 'required|exists:roles,id',
-            'image_id' => 'nullable|exists:images,id',
-        ]);
-
-        Usuario::create($request->all());
-
-        return redirect()->route('usuarios.index')->with('success', 'Usuario created successfully.');
     }
 
     public function edit(Usuario $usuario)
@@ -92,5 +74,44 @@ class UsuarioController extends Controller
         }
 
         return back()->withErrors(['email' => 'Credenciales incorrectas.']);
+    }
+
+    public function create()
+    {
+        return view('auth.register'); // Render the registration form
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:usuarios,email',
+            'password' => 'required|string|min:8|confirmed',
+            'phone' => 'nullable|string|max:15',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $usuario = new Usuario();
+        $usuario->name = $request->name;
+        $usuario->email = $request->email;
+        $usuario->password = Hash::make($request->password);
+        $usuario->phone = $request->phone;
+        $usuario->role_id = 1; // Default role for non-admin users
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('profile_images', 'public');
+
+            // Save the image in the database
+            $image = new Image();
+            $image->url = $path;
+            $image->save();
+
+            // Assign the image ID to the user
+            $usuario->image_id = $image->id;
+        }
+
+        $usuario->save();
+
+        return redirect()->route('login')->with('success', 'Usuario registrado exitosamente.');
     }
 }

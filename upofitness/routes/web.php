@@ -68,3 +68,6 @@ Route::get('/wishlist/{id}', [App\Http\Controllers\WishlistController::class, 's
 Route::post('/wishlist/add/{productId}', [App\Http\Controllers\WishlistController::class, 'addToWishlist'])->name('wishlist.add');
 Route::delete('/wishlist/remove/{productId}', [App\Http\Controllers\WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
 Route::post('/wishlist/clear', [App\Http\Controllers\WishlistController::class, 'clearWishlist'])->name('wishlist.clear');
+
+Route::get('/register', [UsuarioController::class, 'create'])->name('register'); // Render form
+Route::post('/register', [UsuarioController::class, 'store'])->name('register.submit'); // Handle submission
