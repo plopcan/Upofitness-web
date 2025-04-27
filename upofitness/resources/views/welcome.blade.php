@@ -25,6 +25,7 @@
                     @auth
                         <a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">Carrito</a>
                         <a href="{{ route('wishlist.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">Lista de Deseos</a>
+                        <a href="{{ route('orders.show', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">Pedidos y Facturas</a>
                         <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                             @csrf
                             <button type="submit" class="btn btn-secondary link-button">Cerrar Sesión</button>

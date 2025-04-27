@@ -18,6 +18,6 @@ class Invoice extends Model
 
     public function order()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Order::class, 'orders_id'); // Ensure the foreign key is correctly specified
     }
 }

@@ -12,7 +12,7 @@ class Order extends Model
         'usuario_id',
         'product_id',
         'quantity',
-        'total_price',
+        'total',
         'status',
         'promotion_code_id',
         'full_address',
@@ -28,5 +28,14 @@ class Order extends Model
     public function payment()
     {
         return $this->hasOne(Payment::class);
+    }
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+    public function showByUserId($id)
+    {
+        $orders = Order::with('product')->where('usuario_id', $id)->get();
+        return view('orders', compact('orders'));
     }
 }

@@ -14,12 +14,11 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\WishlistController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 Route::get('/login', function () {
     return view('login');
@@ -76,3 +75,6 @@ Route::post('/logout', function () {
 
 Route::get('/profile/edit', [UsuarioController::class, 'edit'])->name('profile.edit')->middleware('auth');
 Route::post('/profile/update', [UsuarioController::class, 'update'])->name('profile.update')->middleware('auth');
+
+Route::get('/orders/user/{id}', [OrderController::class, 'showByUserId'])->name('orders.showByUserId');
+Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoices.show');

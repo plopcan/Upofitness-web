@@ -67,11 +67,17 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id = null)
     {
-        // Muestra un pedido específico
-        $order = Order::findOrFail($id);
-        return view('orders.show', compact('order'));
+        if ($id) {
+            // Busca las órdenes donde el usuario_id coincida con el ID proporcionado
+            $orders = Order::with('product')->where('usuario_id', $id)->get();
+        } else {
+            // Devuelve todas las órdenes
+            $orders = Order::with('product')->get();
+        }
+
+        return view('orders', compact('orders'));
     }
 
     /**
@@ -136,5 +142,14 @@ class OrderController extends Controller
         $order->delete();
 
         return redirect()->route('orders.index')->with('success', 'Order deleted successfully.');
+    }
+
+    /**
+     * Display all orders for a specific user.
+     */
+    public function showByUserId($id)
+    {
+        $orders = Order::with('product')->where('usuario_id', $id)->get();
+        return view('orders', compact('orders'));
     }
 }
