@@ -59,6 +59,7 @@ Route::resource('products.images', App\Http\Controllers\ImageController::class);
 Route::post('/products/{product}/images/multiple', [App\Http\Controllers\ImageController::class, 'storeMultiple'])
     ->name('products.images.storeMultiple');
 Route::post('/cart/add/{productId}', [CartController::class, 'addToCart'])->name('cart.add');
+Route::post('/cart/update-quantity/{productId}/{action}', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
 
 Route::get('/wishlist/{id}', [App\Http\Controllers\WishlistController::class, 'showByUserId'])->name('wishlist.showByUserId');
 Route::post('/wishlist/add/{productId}', [App\Http\Controllers\WishlistController::class, 'addToWishlist'])->name('wishlist.add');

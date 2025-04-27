@@ -33,7 +33,17 @@
                 @foreach ($cart->products as $product)
                     <tr>
                         <td>{{ $product->name }}</td>
-                        <td>{{ $product->pivot->quantity }}</td>
+                        <td>
+                            <form action="{{ route('cart.updateQuantity', ['productId' => $product->id, 'action' => 'decrease']) }}" method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-danger btn-sm">-</button>
+                            </form>
+                            {{ $product->pivot->quantity }}
+                            <form action="{{ route('cart.updateQuantity', ['productId' => $product->id, 'action' => 'increase']) }}" method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-success btn-sm">+</button>
+                            </form>
+                        </td>
                         <td>${{ $product->price }}</td>
                         <td>${{ $product->price * $product->pivot->quantity }}</td>
                     </tr>
