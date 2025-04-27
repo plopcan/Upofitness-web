@@ -20,7 +20,7 @@ class Image extends Model
 
     public function usuario()
     {
-        return $this->hasOne(Usuario::class); // Correctly define the reverse relationship
+        return $this->belongsTo(Usuario::class, 'id', 'image_id');
     }
 
 }
