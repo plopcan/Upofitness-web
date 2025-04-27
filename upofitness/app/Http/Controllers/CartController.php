@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -117,5 +118,28 @@ class CartController extends Controller
         }
 
         return redirect()->back()->with('success', 'Producto añadido al carrito con éxito.');
+    }
+
+    public function updateQuantity(Request $request, $productId, $action)
+    {
+        $cart = Cart::firstOrCreate(['usuario_id' => Auth::id()]);
+
+        $product = $cart->products()->where('product_id', $productId)->first();
+
+        if (!$product) {
+            return redirect()->back()->with('error', 'El producto no existe en el carrito.');
+        }
+
+        $currentQuantity = $product->pivot->quantity;
+
+        if ($action === 'increase') {
+            $cart->products()->updateExistingPivot($productId, ['quantity' => $currentQuantity + 1]);
+        } elseif ($action === 'decrease' && $currentQuantity > 1) {
+            $cart->products()->updateExistingPivot($productId, ['quantity' => $currentQuantity - 1]);
+        } elseif ($action === 'decrease' && $currentQuantity === 1) {
+            $cart->products()->detach($productId);
+        }
+
+        return redirect()->back();
     }
 }
