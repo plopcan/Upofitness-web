@@ -23,7 +23,7 @@ class Order extends Model
     }
     public function invoice()
     {
-        return $this->hasOne(Invoice::class);
+        return $this->hasOne(Invoice::class, 'orders_id'); // Ensure the foreign key is correctly specified
     }
     public function payment()
     {

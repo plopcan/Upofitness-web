@@ -54,9 +54,10 @@ class InvoiceController extends Controller
      */
     public function show(string $id)
     {
-        $invoice = Invoice::with('order.product')->findOrFail($id); // Carga el pedido y su producto relacionado
+    
+        $invoice = Invoice::findOrFail($id); // Carga el pedido y su producto relacionado
         $order = $invoice->order; // Obtiene el pedido directamente
-        return view('invoice', compact('invoice', 'order'));
+    return view('invoice', compact('invoice', 'order'));
     }
 
     /**

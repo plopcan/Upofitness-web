@@ -29,13 +29,9 @@
                     <td>{{ $order->status }}</td>
                     <td>{{ $order->full_address }}</td>
                     <td>
-    @if ($order->invoice)
         <a href="{{ route('invoices.show', ['id' => $order->invoice->id]) }}" class="btn btn-primary">
             Ver Factura
         </a>
-    @else
-        <span class="text-muted">Sin factura</span>
-    @endif
                     </td>
                 </tr>
             @empty
