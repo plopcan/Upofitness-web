@@ -40,6 +40,8 @@
                             <img src="{{ $imageUrl ?? 'https://via.placeholder.com/50' }}" 
                                  alt="Perfil" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
                         </a>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-secondary link-button">Iniciar Sesión</a> <!-- Add login button for unauthenticated users -->
                     @endauth
                 </nav>
             </div>

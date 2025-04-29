@@ -53,7 +53,7 @@ class UsuarioController extends Controller
 
         $usuario->save();
 
-        return redirect()->route('welcome')->with('success', 'Perfil actualizado correctamente.');
+        return redirect()->route('profile.edit')->with('success', 'Perfil actualizado correctamente.');
     }
 
     public function destroy(Usuario $usuario)

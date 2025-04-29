@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PaymentMethod;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentMethodController extends Controller
 {
@@ -30,14 +31,20 @@ class PaymentMethodController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'usuario_id' => 'required|integer|exists:usuarios,id',
+            'usuario_id' => 'required|exists:usuarios,id', // Validate usuario_id
             'card_number' => 'required|string|max:16',
             'expiration_date' => 'required|date_format:Y-m-d',
             'cvv' => 'required|string|max:4',
         ]);
 
-        $paymentMethod = PaymentMethod::create($validatedData);
-        return response()->json($paymentMethod, 201);
+        $paymentMethod = new PaymentMethod();
+        $paymentMethod->usuario_id = $validatedData['usuario_id'];
+        $paymentMethod->card_number = $validatedData['card_number'];
+        $paymentMethod->expiration_date = $validatedData['expiration_date'];
+        $paymentMethod->cvv = $validatedData['cvv'];
+        $paymentMethod->save(); // Save the payment method to the database
+
+        return redirect()->route('profile.edit')->with('success', 'Payment method created successfully.');
     }
 
     /**
@@ -64,7 +71,6 @@ class PaymentMethodController extends Controller
     public function update(Request $request, string $id)
     {
         $validatedData = $request->validate([
-            'usuario_id' => 'required|integer|exists:usuarios,id',
             'card_number' => 'required|string|max:16',
             'expiration_date' => 'required|date_format:Y-m-d',
             'cvv' => 'required|string|max:4',
@@ -84,6 +90,6 @@ class PaymentMethodController extends Controller
         $paymentMethod = PaymentMethod::findOrFail($id);
         $paymentMethod->delete();
 
-        return response()->json(['message' => 'Payment method deleted successfully']);
+        return redirect()->route('profile.edit')->with('success', 'Payment method deleted successfully.');
     }
 }

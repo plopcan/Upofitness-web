@@ -22,7 +22,7 @@ class PaymentSeeder extends Seeder
         }
 
         foreach ($orders as $order) {
-            $paymentMethods = PaymentMethod::where('user_id', $order->usuario_id)->get();
+            $paymentMethods = PaymentMethod::where('usuario_id', $order->usuario_id)->get();
 
             if ($paymentMethods->isEmpty()) {
                 $this->command->warn("El usuario con ID {$order->usuario_id} no tiene métodos de pago. Se omite la orden ID {$order->id}.");

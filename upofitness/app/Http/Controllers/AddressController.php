@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Address;
+use Illuminate\Support\Facades\Auth;
 
 class AddressController extends Controller
 {
@@ -21,7 +22,7 @@ class AddressController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'usuario_id' => 'required|exists:usuarios,id',
+            'usuario_id' => 'required|exists:usuarios,id', // Validate usuario_id
             'city' => 'required|string|max:255',
             'postal_code' => 'required|string|max:10',
             'address' => 'required|string|max:255',
@@ -29,9 +30,16 @@ class AddressController extends Controller
             'phone' => 'nullable|string|max:15',
         ]);
 
-        Address::create($request->all());
+        $address = new Address();
+        $address->usuario_id = $request->usuario_id;
+        $address->city = $request->city;
+        $address->postal_code = $request->postal_code;
+        $address->address = $request->address;
+        $address->country = $request->country;
+        $address->phone = $request->phone;
+        $address->save();
 
-        return redirect()->route('addresses.index')->with('success', 'Address created successfully.');
+        return redirect()->route('profile.edit')->with('success', 'Address created successfully.');
     }
 
     public function edit(Address $address)
@@ -59,6 +67,6 @@ class AddressController extends Controller
     {
         $address->delete();
 
-        return redirect()->route('addresses.index')->with('success', 'Address deleted successfully.');
+        return redirect()->route('profile.edit')->with('success', 'Address deleted successfully.');
     }
 }
