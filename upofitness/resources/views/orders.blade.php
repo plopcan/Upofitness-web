@@ -9,6 +9,8 @@
 <body>
 <div class="container mt-5">
     <h1 class="mb-4">Tus Pedidos</h1>
+    <a href="{{ route('welcome') }}" class="btn btn-secondary mb-3">Volver a la página principal</a>
+    
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -29,9 +31,13 @@
                     <td>{{ $order->status }}</td>
                     <td>{{ $order->full_address }}</td>
                     <td>
-        <a href="{{ route('invoices.show', ['id' => $order->invoice->id]) }}" class="btn btn-primary">
-            Ver Factura
-        </a>
+                        @if($order->invoice)
+                            <a href="{{ route('invoices.show', ['id' => $order->invoice->id]) }}" class="btn btn-primary">
+                                Ver Factura
+                            </a>
+                        @else
+                            <span class="text-muted">Factura no disponible</span>
+                        @endif
                     </td>
                 </tr>
             @empty

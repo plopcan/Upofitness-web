@@ -17,6 +17,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\WishlistController;
+use App\Models\PromotionCode;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
@@ -54,6 +55,9 @@ Route::get('/productos', [ProductController::class, 'index'])->name('productos.i
 Route::get('/cart/user/{id}', [CartController::class, 'showByUserId'])->name('cart.showByUserId');
 Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
+// Ruta para validar y aplicar código promocional
+Route::post('/cart/apply-promo', [CartController::class, 'applyPromoCode'])->name('cart.apply-promo');
+
 Route::resource('products.images', App\Http\Controllers\ImageController::class);
 Route::post('/products/{product}/images/multiple', [App\Http\Controllers\ImageController::class, 'storeMultiple'])
     ->name('products.images.storeMultiple');
@@ -78,3 +82,4 @@ Route::post('/profile/update', [UsuarioController::class, 'update'])->name('prof
 
 Route::get('/orders/user/{id}', [OrderController::class, 'showByUserId'])->name('orders.showByUserId');
 Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoices.show');
+
