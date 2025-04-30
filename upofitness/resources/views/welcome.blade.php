@@ -12,6 +12,7 @@
 
     <!-- Styles / Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header class="navbar-style-7 position-relative bg-dark text-white">
@@ -63,6 +64,54 @@
                 Gestiona personas, usuarios y libros de manera eficiente.
             @endauth
         </p>
+
+        <!-- Carousel for latest products -->
+        <section class="carousel-section my-5">
+            <div id="latestProductsCarousel" class="carousel slide bg-secondary p-3 rounded" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    @foreach ($latestProducts as $index => $product)
+                        <button 
+                            type="button" 
+                            data-bs-target="#latestProductsCarousel" 
+                            data-bs-slide-to="{{ $index }}" 
+                            class="{{ $index === 0 ? 'active' : '' }}" 
+                            @if ($index === 0) aria-current="true" @endif 
+                            aria-label="Slide {{ $index + 1 }}">
+                        </button>
+                    @endforeach
+                </div>
+                <div class="carousel-inner">
+                    @foreach ($latestProducts as $index => $product)
+                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                            @if ($product->images->isNotEmpty())
+                                <img src="{{ asset('storage/' . $product->images->first()->url) }}" 
+                                     class="d-block mx-auto" 
+                                     alt="{{ $product->name }}" 
+                                     style="height: 300px; width: auto; max-width: 80%; object-fit: cover;">
+                            @else
+                                <img src="https://via.placeholder.com/800x400" 
+                                     class="d-block mx-auto" 
+                                     alt="Placeholder Image" 
+                                     style="height: 300px; width: auto; max-width: 80%; object-fit: cover;">
+                            @endif
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>{{ $product->name }}</h5>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#latestProductsCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#latestProductsCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+        <!-- End of Carousel -->
+        
         <section class="header-style-1">
             <div class="header-big">
                 <div class="header-items-active">
