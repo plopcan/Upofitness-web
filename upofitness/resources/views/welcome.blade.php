@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Upofitness</title>
+    <title>{{ __('messages.title') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -18,18 +18,18 @@
     <header class="navbar-style-7 position-relative bg-dark text-white">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-3">
-                <h1 class="text-center">Upofitness</h1>
+                <h1 class="text-center">{{ __('messages.upofitness') }}</h1>
                 <nav>
-                    <a href="{{ route('products.index') }}" class="btn btn-primary link-button">Productos</a>
-                    <a href="{{ route('productDiscount.index') }}" class="btn btn-primary link-button">Descuentos Productos</a>
-                    <a href="{{ route('categories.index') }}" class="btn btn-primary link-button">Categorías</a>
+                    <a href="{{ route('products.index') }}" class="btn btn-primary link-button">{{ __('messages.products') }}</a>
+                    <a href="{{ route('productDiscount.index') }}" class="btn btn-primary link-button">{{ __('messages.product_discounts') }}</a>
+                    <a href="{{ route('categories.index') }}" class="btn btn-primary link-button">{{ __('messages.categories') }}</a>
                     @auth
-                        <a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">Carrito</a>
-                        <a href="{{ route('wishlist.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">Lista de Deseos</a>
-                        <a href="{{ route('orders.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">Pedidos y Facturas</a>
+                        <a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">{{ __('messages.cart') }}</a>
+                        <a href="{{ route('wishlist.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">{{ __('messages.wishlist') }}</a>
+                        <a href="{{ route('orders.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">@lang('messages.orders_invoices')</a>
                         <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                             @csrf
-                            <button type="submit" class="btn btn-secondary link-button">Cerrar Sesión</button>
+                            <button type="submit" class="btn btn-secondary link-button">{{ __('messages.logout') }}</button>
                         </form>
                         <a href="{{ route('profile.edit') }}" class="profile-button">
                             @php
@@ -42,8 +42,15 @@
                                  alt="Perfil" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
                         </a>
                     @else
-                        <a href="{{ route('login') }}" class="btn btn-secondary link-button">Iniciar Sesión</a> <!-- Add login button for unauthenticated users -->
+                        <a href="{{ route('login') }}" class="btn btn-secondary link-button">Login</a> <!-- Add login button for unauthenticated users -->
                     @endauth
+                    <form action="{{ route('language.change') }}" method="POST" class="d-inline">
+                        @csrf
+                        <select name="locale" onchange="this.form.submit()" class="form-select d-inline w-auto">
+                            <option value="en" {{ app()->getLocale() === 'en' ? 'selected' : '' }}>English</option>
+                            <option value="es" {{ app()->getLocale() === 'es' ? 'selected' : '' }}>Español</option>
+                        </select>
+                    </form>
                 </nav>
             </div>
         </div>
@@ -52,16 +59,16 @@
     <main class="mt-6 flex-grow-1">
         <h1>
             @auth
-                Bienvenido, {{ Auth::user()->name }}
+                {{ __('messages.welcome_user', ['name' => Auth::user()->name]) }}
             @else
-                Bienvenido a Upofitness
+                {{ __('messages.welcome_guest') }}
             @endauth
         </h1>
         <p>
             @auth
-                Esta es la página principal para usuarios.
+                {{ __('messages.main_page_user') }}
             @else
-                Gestiona personas, usuarios y libros de manera eficiente.
+                {{ __('messages.main_page_guest') }}
             @endauth
         </p>
 
@@ -118,8 +125,8 @@
                     <div class="single-header-item bg_cover"
                         style="background-image: url('assets/images/header-1/header-big-1.jpg');">
                         <div class="header-item-content text-center">
-                            <h3 class="title">Bienvenido a Upofitness</h3>
-                            <p>Gestiona personas, usuarios y libros de manera eficiente.</p>
+                            <h3 class="title">{{ __('messages.welcome_to_upofitness') }}</h3>
+                            <p>{{ __('messages.manage_people') }}</p>
                         </div>
                     </div>
                 </div>
@@ -133,35 +140,35 @@
             <div class="row">
                 <!-- About Section -->
                 <div class="col-lg-4 col-md-6">
-                    <h5 class="font-weight-bold">Sobre Nosotros</h5>
-                    <p>Upofitness es una plataforma dedicada a mejorar tu bienestar físico y mental. Ofrecemos productos, servicios y recursos para ayudarte a alcanzar tus metas.</p>
+                    <h5 class="font-weight-bold">{{ __('messages.about_us') }}</h5>
+                    <p>{{ __('messages.about_us_description') }}</p>
                 </div>
                 <!-- Quick Links -->
                 <div class="col-lg-4 col-md-6">
-                    <h5 class="font-weight-bold">Enlaces Rápidos</h5>
+                    <h5 class="font-weight-bold">{{ __('messages.quick_links') }}</h5>
                     <ul class="list-unstyled">
-                        <li><a href="{{ route('products.index') }}" class="text-white">Productos</a></li>
-                        <li><a href="{{ route('categories.index') }}" class="text-white">Categorías</a></li>
+                        <li><a href="{{ route('products.index') }}" class="text-white">{{ __('messages.products') }}</a></li>
                         @auth
-                            <li><a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="text-white">Carrito</a></li>
-                            <li><a href="{{ route('wishlist.showByUserId', ['id' => Auth::user()->id]) }}" class="text-white">Lista de Deseos</a></li>
+                        <li><a href="{{ route('categories.index') }}" class="text-white">{{ __('messages.categories') }}</a></li>
+                            <li><a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="text-white">{{ __('messages.cart') }}</a></li>
+                            <li><a href="{{ route('wishlist.showByUserId', ['id' => Auth::user()->id]) }}" class="text-white">{{ __('messages.wishlist') }}</a></li>
                         @else
-                            <li><a href="{{ route('login') }}" class="text-white">Iniciar Sesión</a></li>
+                            <li><a href="{{ route('login') }}" class="text-white">Login</a></li>
                         @endauth
                     </ul>
                 </div>
                 <!-- Contact Info -->
                 <div class="col-lg-4 col-md-12">
-                    <h5 class="font-weight-bold">Contáctanos</h5>
-                    <p><i class="mdi mdi-phone"></i> +34 123 456 789</p>
-                    <p><i class="mdi mdi-email"></i> soporte@upofitness.com</p>
-                    <p><i class="mdi mdi-map-marker"></i> Calle Ejemplo 123, Sevilla, España</p>
+                    <h5 class="font-weight-bold">{{ __('messages.contact_us') }}</h5>
+                    <p><i class="mdi mdi-phone"></i> {{ __('messages.phone') }}</p>
+                    <p><i class="mdi mdi-email"></i> {{ __('messages.email') }}</p>
+                    <p><i class="mdi mdi-map-marker"></i> {{ __('messages.address') }}</p>
                 </div>
             </div>
             <hr class="my-4">
             <div class="row">
                 <div class="col-12">
-                    <p class="mb-0">© {{ date('Y') }} Upofitness. Todos los derechos reservados.</p>
+                    <p class="mb-0">© {{ date('Y') }} {{ __('messages.copyright') }}</p>
                 </div>
             </div>
         </div>
