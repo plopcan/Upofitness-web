@@ -142,17 +142,18 @@ class ProductController extends Controller
         return redirect()->route('products.edit', $productId)->with('success', 'Image deleted successfully');
     }
 
-    public function filterByCategory(Request $request, $categoryId)
+    public function filterByCategory(Request $request)
     {
-        $category = Category::find($categoryId);
-
-        if (!$category) {
-            return redirect()->route('products.index')->with('error', 'Category not found');
-        }
-
-        $products = $category->products()->paginate(10); 
+        $categoryIds = $request->input('categories', []);
+    
+        // Filtrar productos que pertenezcan a las categorías seleccionadas
+        $products = Product::whereHas('categories', function ($query) use ($categoryIds) {
+            $query->whereIn('categories.id', $categoryIds);
+        })->paginate(9);
+    
+        // Obtener todas las categorías para el filtro
         $categories = Category::all();
-
-        return view('producto', compact('products', 'category', 'categories'));
+    
+        return view('producto', compact('products', 'categories'));
     }
 }

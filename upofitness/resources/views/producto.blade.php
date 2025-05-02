@@ -32,18 +32,22 @@
             <h1 class="text-center mb-4">Productos</h1>
             
             <!-- Category Filter -->
-            <details class="mb-4">
-                <summary class="btn btn-secondary">Filtrar por categoría</summary>
-                <ul class="list-group mt-2">
-                    @foreach ($categories as $category)
-                        <li class="list-group-item">
-                            <a href="{{ route('products.filterByCategory', ['categoryId' => $category->id]) }}" class="text-decoration-none">
-                                {{ $category->name }}
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            </details>
+            <form method="GET" action="{{ route('products.filterByCategory') }}" class="mb-4">
+                <details>
+                    <summary class="btn btn-secondary">Filtrar por categorías</summary>
+                    <ul class="list-group mt-2">
+                        @foreach ($categories as $category)
+                            <li class="list-group-item">
+                                <input type="checkbox" name="categories[]" value="{{ $category->id }}" 
+                                       id="category-{{ $category->id }}" 
+                                       {{ in_array($category->id, request('categories', [])) ? 'checked' : '' }}>
+                                <label for="category-{{ $category->id }}" class="ms-2">{{ $category->name }}</label>
+                            </li>
+                        @endforeach
+                    </ul>
+                </details>
+                <button type="submit" class="btn btn-primary mt-3">Aplicar filtros</button>
+            </form>
             
             <div class="row">
                 @foreach ($products as $product)

@@ -37,12 +37,12 @@ Route::resource('invoices', InvoiceController::class);
 Route::resource('promotion-codes', PromotionCodeController::class);
 Route::resource('payment-methods', PaymentMethodController::class);
 
+Route::get('/products/filter', [ProductController::class, 'filterByCategory'])->name('products.filterByCategory');
 Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);
 Route::resource('productDiscount', ProductDiscountController::class);
 
 Route::delete('products/{product}/images/{image}', [ProductController::class, 'deleteImage'])->name('products.images.destroy');
-Route::get('/products/category/{categoryId}', [ProductController::class, 'filterByCategory'])->name('products.filterByCategory');
 Route::post('/products/{product}/images', [ImageController::class, 'store'])->name('products.images.store');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
