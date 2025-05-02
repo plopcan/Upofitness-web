@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'title' => 'Upofitness',
+    'upofitness' => 'Upofitness',
+    'products' => 'Products',
+    'product_discounts' => 'Product Discounts',
+    'categories' => 'Categories',
+    'cart' => 'Cart',
+    'wishlist' => 'Wishlist',
+    'orders_invoices' => 'Orders and Invoices',
+    'logout' => 'Logout',
+    'welcome_user' => 'Welcome, :name',
+    'welcome_guest' => 'Welcome to Upofitness',
+    'main_page_user' => 'This is the main page for users.',
+    'main_page_guest' => 'Manage people, users, and books efficiently.',
+    'welcome_to_upofitness' => 'Welcome to Upofitness',
+    'manage_people' => 'Manage people, users, and books efficiently.',
+    'about_us' => 'About Us',
+    'about_us_description' => 'Upofitness is a platform dedicated to improving your physical and mental well-being. We offer products, services, and resources to help you achieve your goals.',
+    'quick_links' => 'Quick Links',
+    'contact_us' => 'Contact Us',
+    'phone' => '+34 123 456 789',
+    'email' => 'support@upofitness.com',
+    'address' => 'Example Street 123, Seville, Spain',
+    'copyright' => 'Upofitness. All rights reserved.',
+];

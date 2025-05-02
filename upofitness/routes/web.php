@@ -18,6 +18,7 @@ use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\WishlistController;
 use App\Models\PromotionCode;
+use App\Http\Controllers\LanguageController;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
@@ -82,4 +83,6 @@ Route::post('/profile/update', [UsuarioController::class, 'update'])->name('prof
 
 Route::get('/orders/user/{id}', [OrderController::class, 'showByUserId'])->name('orders.showByUserId');
 Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoices.show');
+
+Route::post('/language/change', [LanguageController::class, 'change'])->name('language.change');
 
