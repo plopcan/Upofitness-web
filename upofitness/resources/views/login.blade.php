@@ -48,6 +48,9 @@
                         <div class="text-center mt-3">
                             <p>¿No tienes una cuenta? <a href="{{ route('register') }}">Regístrate</a></p>
                         </div>
+                        <div class="text-center mt-3">
+                            <p>¿Olvidaste tu contraseña? <a href="{{ route('auth.forgot-password') }}">Haz clic aquí para restablecerla</a>.</p>
+                        </div>
                     </div>
                 </div>
             </div>

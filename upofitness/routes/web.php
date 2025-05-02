@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\WishlistController;
 use App\Models\PromotionCode;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
@@ -32,9 +35,9 @@ Route::get('/admin', function () {
     return view('admin');
 })->middleware('auth')->name('admin');
 
-Route::resource('orders', OrderController::class);
+#Route::resource('orders', OrderController::class);
 Route::resource('payments', PaymentController::class);
-Route::resource('invoices', InvoiceController::class);
+#Route::resource('invoices', InvoiceController::class);
 Route::resource('promotion-codes', PromotionCodeController::class);
 Route::resource('payment-methods', PaymentMethodController::class);
 
@@ -47,7 +50,6 @@ Route::delete('products/{product}/images/{image}', [ProductController::class, 'd
 Route::post('/products/{product}/images', [ImageController::class, 'store'])->name('products.images.store');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
-Route::resource('usuarios', UsuarioController::class);
 Route::resource('roles', RoleController::class);
 Route::resource('carts', CartController::class);
 Route::resource('addresses', AddressController::class);
@@ -70,19 +72,47 @@ Route::post('/wishlist/add/{productId}', [App\Http\Controllers\WishlistControlle
 Route::delete('/wishlist/remove/{productId}', [App\Http\Controllers\WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
 Route::post('/wishlist/clear', [App\Http\Controllers\WishlistController::class, 'clearWishlist'])->name('wishlist.clear');
 
-Route::get('/register', [UsuarioController::class, 'create'])->name('register'); // Render form
-Route::post('/register', [UsuarioController::class, 'store'])->name('register.submit'); // Handle submission
+Route::get('/register', [UsuarioController::class, 'create'])->name('register'); 
+Route::post('/register', [UsuarioController::class, 'store'])->name('register.submit'); 
 
 Route::post('/logout', function () {
     Auth::logout();
     return redirect()->route('welcome');
 })->name('logout');
 
-Route::get('/profile/edit', [UsuarioController::class, 'edit'])->name('profile.edit')->middleware('auth');
-Route::post('/profile/update', [UsuarioController::class, 'update'])->name('profile.update')->middleware('auth');
-
-Route::get('/orders/user/{id}', [OrderController::class, 'showByUserId'])->name('orders.showByUserId');
-Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoices.show');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile/edit', [UsuarioController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [UsuarioController::class, 'update'])->name('profile.update');
+    Route::get('/orders/user/{id}', [OrderController::class, 'showByUserId'])->name('orders.showByUserId');
+    Route::resource('invoices', InvoiceController::class);
+    Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoices.show');
+    Route::get('/usuarios/manage', [UsuarioController::class, 'index'])->name('usuarios.manage');
+    Route::get('/usuarios/{id}/edit', [UsuarioController::class, 'edit'])->name('usuarios.edit');
+    Route::post('/usuarios/{id}/update', [UsuarioController::class, 'update'])->name('usuarios.update');
+    Route::get('/admin/usuarios/manage', [UsuarioController::class, 'index'])->name('admin.manage');
+    Route::get('/admin/usuarios/{usuario}/edit', [UsuarioController::class, 'adminEdit'])->name('admin.usuarios.edit');
+    Route::post('/admin/usuarios/{usuario}/update', [UsuarioController::class, 'adminUpdate'])->name('admin.usuarios.update');
+    Route::delete('/admin/usuarios/{usuario}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
+});
 
 Route::post('/language/change', [LanguageController::class, 'change'])->name('language.change');
+
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+})->name('auth.forgot-password');
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
 

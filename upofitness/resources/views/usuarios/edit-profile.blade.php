@@ -4,34 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Perfil</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Editar Perfil</h2>
-        <a href="{{ route('welcome') }}" class="btn btn-secondary mb-3">Volver a la página principal</a> <!-- Button to return to the main page -->
-        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="form-group">
-                <label for="name">Nombre</label>
-                <input type="text" name="name" id="name" class="form-control" value="{{ $usuario->name }}" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Correo Electrónico</label>
-                <input type="email" name="email" id="email" class="form-control" value="{{ $usuario->email }}" required>
-            </div>
-            <div class="form-group">
-                <label for="phone">Teléfono</label>
-                <input type="text" name="phone" id="phone" class="form-control" value="{{ $usuario->phone }}">
-            </div>
-            <div class="form-group">
-                <label for="image">Imagen de Perfil</label>
-                <input type="file" name="image" id="image" class="form-control">
-                @if ($usuario->image)
-                    <img src="{{ asset('storage/' . $usuario->image->url) }}" alt="Imagen de Perfil" style="width: 100px; height: 100px; object-fit: cover;">
-                @endif
-            </div>
-            <button type="submit" class="btn btn-primary">Actualizar Perfil</button>
-        </form>
+<div class="container mt-5">
+    <h1 class="mb-4">Editar Perfil</h1>
+    <a href="{{ route('welcome') }}" class="btn btn-secondary mb-3">Volver a la página principal</a>
+
+    <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <div class="form-group mb-3">
+            <label for="name">Nombre</label>
+            <input type="text" name="name" id="name" class="form-control" value="{{ $usuario->name }}" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="email">Correo Electrónico</label>
+            <input type="email" name="email" id="email" class="form-control" value="{{ $usuario->email }}" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="phone">Teléfono</label>
+            <input type="text" name="phone" id="phone" class="form-control" value="{{ $usuario->phone }}">
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="image">Imagen de Perfil</label>
+            <input type="file" name="image" id="image" class="form-control">
+            @if ($usuario->image)
+                <img src="{{ asset('storage/' . $usuario->image->url) }}" alt="Imagen de Perfil" class="mt-2" style="width: 100px; height: 100px; object-fit: cover;">
+            @endif
+        </div>
+
+        <button type="submit" class="btn btn-primary">Actualizar Perfil</button>
+    </form>
 
         <hr>
 
@@ -54,8 +61,8 @@
             <div class="form-group">
                 <label for="address">Dirección</label>
                 <input type="text" name="address" id="address" class="form-control" required>
-            </div>
-            <div class="form-group">
+</div>
+<div class="form-group">
                 <label for="city">Ciudad</label>
                 <input type="text" name="city" id="city" class="form-control" required>
             </div>

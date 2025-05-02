@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Address;
 use App\Models\PromotionCode;
+use App\Models\Usuario;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -147,9 +149,20 @@ class OrderController extends Controller
     /**
      * Display all orders for a specific user.
      */
-    public function showByUserId($id)
+    public function showByUserId($id = null)
     {
-        $orders = Order::with('product')->where('usuario_id', $id)->get();
-        return view('orders', compact('orders'));
+        $user = Auth::user();
+
+        if ($user->role->name === 'administrador') {
+            // Administrador: Ver todas las órdenes sin distinguir por usuarios
+            $orders = Order::with('product')->get();
+
+            return view('orders', compact('orders'));
+        } else {
+            // Usuario normal: Ver solo sus órdenes
+            $orders = Order::with('product')->where('usuario_id', $user->id)->get();
+
+            return view('orders', compact('orders'));
+        }
     }
 }

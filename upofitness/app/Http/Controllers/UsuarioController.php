@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
 use App\Models\Image;
+use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +15,7 @@ class UsuarioController extends Controller
     public function index()
     {
         $usuarios = Usuario::all();
-        return view('usuarios.index', compact('usuarios'));
+        return view('admin.manage', compact('usuarios'));
     }
 
     public function edit(Usuario $usuario = null)
@@ -25,7 +26,7 @@ class UsuarioController extends Controller
 
     public function update(Request $request, Usuario $usuario = null)
     {
-        $usuario = $usuario ?? Auth::user(); // Use the authenticated user if no specific user is provided
+        $usuario = $usuario ?? Auth::user(); 
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -60,7 +61,7 @@ class UsuarioController extends Controller
     {
         $usuario->delete();
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario deleted successfully.');
+        return redirect()->route('admin.manage')->with('success', 'Usuario deleted successfully.');
     }
 
     public function authenticate(Request $request)
@@ -90,7 +91,7 @@ class UsuarioController extends Controller
 
     public function create()
     {
-        return view('auth.register'); // Render the registration form
+        return view('auth.register');
     }
 
     public function store(Request $request)
@@ -108,7 +109,7 @@ class UsuarioController extends Controller
         $usuario->email = $request->email;
         $usuario->password = Hash::make($request->password);
         $usuario->phone = $request->phone;
-        $usuario->role_id = 1; // Default role for non-admin users
+        $usuario->role_id = 1;
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('profile_images', 'public');
@@ -127,30 +128,35 @@ class UsuarioController extends Controller
         return redirect()->route('login')->with('success', 'Usuario registrado exitosamente.');
     }
 
-    public function editProfile()
+    public function show(Usuario $usuario)
     {
-        $user = Auth::user();
-        return view('usuarios.edit-profile', compact('user'));
+        return view('usuarios.show', compact('usuario'));
     }
 
-    public function updateProfile(Request $request)
+    public function adminEdit(Usuario $usuario)
     {
-        $user = Auth::user();
+        $roles = Role::all();
+        return view('admin.edit-user', compact('usuario', 'roles'));
+    }
 
+    public function adminUpdate(Request $request, Usuario $usuario)
+    {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:usuarios,email,' . $user->id,
+            'email' => 'required|email|unique:usuarios,email,' . $usuario->id,
             'phone' => 'nullable|string|max:15',
+            'role_id' => 'required|exists:roles,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
+        $usuario->name = $request->name;
+        $usuario->email = $request->email;
+        $usuario->phone = $request->phone;
+        $usuario->role_id = $request->role_id;
 
         if ($request->hasFile('image')) {
-            if ($user->image && Storage::disk('public')->exists($user->image->url)) {
-                Storage::disk('public')->delete($user->image->url);
+            if ($usuario->image && Storage::disk('public')->exists($usuario->image->url)) {
+                Storage::disk('public')->delete($usuario->image->url);
             }
 
             $path = $request->file('image')->store('profile_images', 'public');
@@ -158,11 +164,11 @@ class UsuarioController extends Controller
             $image->url = $path;
             $image->save();
 
-            $user->image_id = $image->id;
+            $usuario->image_id = $image->id;
         }
 
-        $user->save();
+        $usuario->save();
 
-        return redirect()->route('profile.edit')->with('success', 'Perfil actualizado correctamente.');
+        return redirect()->route('usuarios.manage')->with('success', 'Usuario actualizado correctamente.');
     }
 }

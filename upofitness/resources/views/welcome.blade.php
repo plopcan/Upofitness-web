@@ -24,6 +24,9 @@
                     <a href="{{ route('productDiscount.index') }}" class="btn btn-primary link-button">{{ __('messages.product_discounts') }}</a>
                     <a href="{{ route('categories.index') }}" class="btn btn-primary link-button">{{ __('messages.categories') }}</a>
                     @auth
+                        @if(Auth::user()->role->name === 'administrador')
+                            <a href="{{ route('usuarios.manage') }}" class="btn btn-primary link-button">Gestionar Usuarios</a>
+                        @endif
                         <a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">{{ __('messages.cart') }}</a>
                         <a href="{{ route('wishlist.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">{{ __('messages.wishlist') }}</a>
                         <a href="{{ route('orders.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">@lang('messages.orders_invoices')</a>

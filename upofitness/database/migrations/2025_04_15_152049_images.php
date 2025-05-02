@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id(); 
-            $table->foreignId('product_id')->nullable()->constrained('products', 'id')->onDelete('cascade')->name('images_product_id_fk'); // Use a unique name for the FK
+            $table->foreignId('product_id')->nullable();
             $table->string('url'); 
             $table->timestamps();
         });
