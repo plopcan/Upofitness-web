@@ -13,14 +13,6 @@
             <a href="{{ route('welcome') }}" class="btn btn-secondary">Volver a la página principal</a>
         </div>
 
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-
-        @if (session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
-        @endif
-
         @if (isset($error))
             <div class="alert alert-danger">{{ $error }}</div>
         @elseif ($cart && $cart->products->count() > 0)

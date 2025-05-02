@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
             margin: 0;
             padding: 20px;
         }
+
         .product-card {
             border: 1px solid #ddd;
             padding: 15px;
@@ -18,18 +20,22 @@
             justify-content: space-between;
             align-items: center;
         }
+
         .product-info {
             flex: 1;
         }
+
         .product-actions {
             display: flex;
             gap: 10px;
         }
+
         .empty-message {
             text-align: center;
             padding: 20px;
             color: #666;
         }
+
         .success {
             color: green;
             padding: 10px;
@@ -37,6 +43,7 @@
             background-color: #e8f5e9;
             border-radius: 5px;
         }
+
         .error {
             color: red;
             padding: 10px;
@@ -44,6 +51,7 @@
             background-color: #ffebee;
             border-radius: 5px;
         }
+
         .info {
             color: blue;
             padding: 10px;
@@ -53,17 +61,27 @@
         }
     </style>
 </head>
+
 <body>
     <nav>
         <a href="{{ route('productos.index') }}">Catálogo</a>
-        @if (session('usuario_id'))
-            <a href="{{ route('cart.showByUserId', ['id' => session('usuario_id')]) }}">Carrito</a>
-            <a href="{{ route('wishlist.showByUserId', ['id' => session('usuario_id')]) }}">Lista de Deseos</a>
+        @auth
+            <a href="{{ route('cart.showByUserId', ['id' => auth()->id()]) }}">Carrito</a>
+            <a href="{{ route('wishlist.showByUserId', ['id' => auth()->id()]) }}">Lista de Deseos</a>
+            <a href="{{ route('profile.edit') }}" class="profile-button">
+                @php
+                    $imageUrl = null;
+                    if (Auth::user()->image_id && Auth::user()->image) {
+                        $imageUrl = asset('storage/' . Auth::user()->image->url);
+                    }
+                @endphp
+                <img src="{{ $imageUrl ?? 'https://via.placeholder.com/50' }}" alt="Perfil" class="rounded-circle"
+                    style="width: 50px; height: 50px; object-fit: cover;">
+            </a>
         @else
             <a href="#" onclick="alert('Debes iniciar sesión para acceder al carrito.')">Carrito</a>
             <a href="#" onclick="alert('Debes iniciar sesión para acceder a la lista de deseos.')">Lista de Deseos</a>
-        @endif
-        <a href="#profile">Perfil</a>
+        @endauth
     </nav>
 
     <h1>Mi Lista de Deseos</h1>
@@ -119,4 +137,5 @@
         </div>
     @endif
 </body>
+
 </html>

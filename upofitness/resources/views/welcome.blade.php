@@ -44,13 +44,6 @@
                     @else
                         <a href="{{ route('login') }}" class="btn btn-secondary link-button">Login</a> <!-- Add login button for unauthenticated users -->
                     @endauth
-                    <form action="{{ route('language.change') }}" method="POST" class="d-inline">
-                        @csrf
-                        <select name="locale" onchange="this.form.submit()" class="form-select d-inline w-auto">
-                            <option value="en" {{ app()->getLocale() === 'en' ? 'selected' : '' }}>English</option>
-                            <option value="es" {{ app()->getLocale() === 'es' ? 'selected' : '' }}>Español</option>
-                        </select>
-                    </form>
                 </nav>
             </div>
         </div>
