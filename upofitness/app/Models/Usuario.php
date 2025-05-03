@@ -85,4 +85,12 @@ class Usuario extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(PaymentMethod::class);
     }
+
+    /**
+     * Route notifications for the mail channel.
+     */
+    public function routeNotificationForMail(): string
+    {
+        return $this->email;
+    }
 }

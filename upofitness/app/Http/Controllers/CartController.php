@@ -11,7 +11,10 @@ use App\Models\PromotionCode;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Invoice;
+use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderConfirmationMail;
 
 class CartController extends Controller
 {
@@ -185,7 +188,24 @@ class CartController extends Controller
             'total_amount' => $total,
             'orders_id' => $order->id,
         ]);
+        // Obtener el usuario actual
+        $usuario = Usuario::find($userId);
+        
+        // Cargar la relación del código promocional si existe
+        if ($promotionCodeId) {
+            $order->load('promotion_code');
+        }
 
+        try {
+            // Enviar correo directamente en lugar de usar notificaciones
+            Mail::to($usuario->email)
+                ->send(new OrderConfirmationMail($order, $usuario->name));
+            \Log::info('Correo enviado correctamente a: ' . $usuario->email);
+        } catch (\Exception $e) {
+            \Log::error('Error al enviar correo de confirmación: ' . $e->getMessage());
+            \Log::error($e->getTraceAsString());
+        }
+        
         // Vaciar el carrito después del pago
         $cart->products()->detach();
         
@@ -194,7 +214,7 @@ class CartController extends Controller
 
         // Redirigir a la página de pedidos del usuario, asegurándonos de incluir el ID
         return redirect()->route('orders.showByUserId', ['id' => $userId])
-            ->with('success', 'Pago realizado con éxito. ¡Gracias por tu compra!');
+            ->with('success', 'Pago realizado con éxito. Le hemos enviado un email, ¡Gracias por tu compra!');
     }
 
     public function addToCart(Request $request, $productId)
