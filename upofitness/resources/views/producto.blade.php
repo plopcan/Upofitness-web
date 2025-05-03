@@ -88,12 +88,37 @@
                                         <button type="submit" class="btn btn-primary">Añadir al carrito</button>
                                     </form>
                                     
-                                    <form action="{{ route('wishlist.add', ['productId' => $product->id]) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="btn btn-outline-danger">
+                                    @auth
+                                        @php
+                                            $wishlist = \App\Models\Wishlist::where('usuario_id', Auth::user()->id)->first();
+                                            $inWishlist = false;
+                                            
+                                            if ($wishlist) {
+                                                $inWishlist = $wishlist->products()->where('product_id', $product->id)->exists();
+                                            }
+                                        @endphp
+                                        
+                                        @if($inWishlist)
+                                            <form action="{{ route('wishlist.remove', ['productId' => $product->id]) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="bi bi-heart-fill"></i> Eliminar de favoritos
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('wishlist.add', ['productId' => $product->id]) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-outline-danger">
+                                                    <i class="bi bi-heart"></i> Añadir a favoritos
+                                                </button>
+                                            </form>
+                                        @endif
+                                    @else
+                                        <a href="{{ route('login') }}" class="btn btn-outline-danger">
                                             <i class="bi bi-heart"></i> Añadir a favoritos
-                                        </button>
-                                    </form>
+                                        </a>
+                                    @endauth
                                 </div>
                                 
                                 <a href="{{ route('products.show', $product->id) }}" class="btn btn-secondary">Ver detalle</a>

@@ -68,9 +68,9 @@ Route::post('/cart/add/{productId}', [CartController::class, 'addToCart'])->name
 Route::post('/cart/update-quantity/{productId}/{action}', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
 
 Route::get('/wishlist/{id}', [App\Http\Controllers\WishlistController::class, 'showByUserId'])->name('wishlist.showByUserId');
-Route::post('/wishlist/add/{productId}', [App\Http\Controllers\WishlistController::class, 'addToWishlist'])->name('wishlist.add');
-Route::delete('/wishlist/remove/{productId}', [App\Http\Controllers\WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
-Route::post('/wishlist/clear', [App\Http\Controllers\WishlistController::class, 'clearWishlist'])->name('wishlist.clear');
+Route::post('/wishlist/add/{productId}', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
+Route::delete('/wishlist/remove/{productId}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
+Route::post('/wishlist/clear', [WishlistController::class, 'clearWishlist'])->name('wishlist.clear');
 
 Route::get('/register', [UsuarioController::class, 'create'])->name('register'); 
 Route::post('/register', [UsuarioController::class, 'store'])->name('register.submit'); 

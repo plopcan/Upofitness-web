@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Wishlist;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends Controller
 {
@@ -30,12 +31,14 @@ class WishlistController extends Controller
     public function addToWishlist(Request $request, $productId)
     {
         // Verificar si el usuario está logueado
-        if (!session('usuario_id')) {
+        if (!Auth::check()) {
             return redirect()->back()->with('error', 'Debes iniciar sesión para añadir productos a la lista de deseos.');
         }
 
+        $userId = Auth::id();
+        
         // Obtener o crear la lista de deseos del usuario
-        $wishlist = Wishlist::firstOrCreate(['usuario_id' => session('usuario_id')]);
+        $wishlist = Wishlist::firstOrCreate(['usuario_id' => $userId]);
 
         // Verificar si el producto existe
         $product = Product::find($productId);
@@ -57,12 +60,14 @@ class WishlistController extends Controller
     public function removeFromWishlist(Request $request, $productId)
     {
         // Verificar si el usuario está logueado
-        if (!session('usuario_id')) {
+        if (!Auth::check()) {
             return redirect()->back()->with('error', 'Debes iniciar sesión para eliminar productos de la lista de deseos.');
         }
 
+        $userId = Auth::id();
+        
         // Obtener la lista de deseos del usuario
-        $wishlist = Wishlist::where('usuario_id', session('usuario_id'))->first();
+        $wishlist = Wishlist::where('usuario_id', $userId)->first();
 
         if (!$wishlist) {
             return redirect()->back()->with('error', 'No tienes una lista de deseos.');
@@ -77,12 +82,14 @@ class WishlistController extends Controller
     public function clearWishlist()
     {
         // Verificar si el usuario está logueado
-        if (!session('usuario_id')) {
+        if (!Auth::check()) {
             return redirect()->back()->with('error', 'Debes iniciar sesión para vaciar la lista de deseos.');
         }
 
+        $userId = Auth::id();
+        
         // Obtener la lista de deseos del usuario
-        $wishlist = Wishlist::where('usuario_id', session('usuario_id'))->first();
+        $wishlist = Wishlist::where('usuario_id', $userId)->first();
 
         if (!$wishlist) {
             return redirect()->back()->with('error', 'No tienes una lista de deseos.');

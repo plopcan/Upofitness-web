@@ -219,36 +219,36 @@ class CartController extends Controller
 
     public function addToCart(Request $request, $productId)
     {
-        // Check if the user is logged in
-        if (!session('usuario_id')) {
-            return redirect()->back()->with('error', 'Debes iniciar sesión para añadir productos al carrito.');
+        // Si el usuario está autenticado, usar Auth::id()
+        if (Auth::check()) {
+            $userId = Auth::id();
+        } 
+        // Si no está autenticado, intentar obtener el ID de la sesión o request
+        else {
+            $userId = $request->input('usuario_id') ?? session('usuario_id');
+            
+            // Si no hay ID de usuario, redirigir al login
+            if (!$userId) {
+                return redirect()->route('login')->with('error', 'Debes iniciar sesión para añadir productos al carrito');
+            }
         }
-
-        // Retrieve the user's cart
-        $cart = Cart::firstOrCreate(['usuario_id' => session('usuario_id')]);
-
-        // Check if the product exists
-        $product = Product::find($productId);
-        if (!$product) {
-            return redirect()->back()->with('error', 'El producto no existe.');
-        }
-
-        // Check if the product is already in the cart
+        
+        // Obtener o crear el carrito para el usuario
+        $cart = Cart::firstOrCreate(['usuario_id' => $userId]);
+        
+        // Verificar si el producto ya está en el carrito
         $existingProduct = $cart->products()->where('product_id', $productId)->first();
-
+        
         if ($existingProduct) {
-            // Increment the quantity if the product already exists in the cart
-            $cart->products()->updateExistingPivot($productId, [
-                'quantity' => $existingProduct->pivot->quantity + $request->input('quantity', 1)
-            ]);
+            // Si ya existe, actualizar la cantidad
+            $newQuantity = $existingProduct->pivot->quantity + $request->input('quantity', 1);
+            $cart->products()->updateExistingPivot($productId, ['quantity' => $newQuantity]);
         } else {
-            // Add the product to the cart if it doesn't exist
-            $cart->products()->attach($productId, [
-                'quantity' => $request->input('quantity', 1)
-            ]);
+            // Si no existe, añadirlo con la cantidad especificada
+            $cart->products()->attach($productId, ['quantity' => $request->input('quantity', 1)]);
         }
-
-        return redirect()->back()->with('success', 'Producto añadido al carrito con éxito.');
+        
+        return redirect()->back()->with('success', 'Producto añadido al carrito correctamente');
     }
 
     public function updateQuantity(Request $request, $productId, $action)
