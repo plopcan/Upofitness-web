@@ -100,4 +100,14 @@ class WishlistController extends Controller
 
         return redirect()->back()->with('success', 'Lista de deseos vaciada con éxito.');
     }
+
+    public function topWishlistProducts()
+    {
+        $topProducts = Product::withCount('wishlists')
+            ->orderBy('wishlists_count', 'desc')
+            ->take(10)
+            ->get();
+
+        return view('admin.top-wishlist-products', compact('topProducts'));
+    }
 }

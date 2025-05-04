@@ -11,7 +11,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Styles / Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/bootstrap.js', 'resources/js/bootstrap.bundle.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header class="navbar-style-7 position-relative bg-dark text-white">
@@ -25,6 +25,7 @@
                     @auth
                         @if(Auth::user()->role->name === 'administrador')
                             <a href="{{ route('usuarios.manage') }}" class="btn btn-primary link-button">Gestionar Usuarios</a>
+                            <a href="{{ route('admin.topWishlistProducts') }}" class="btn btn-primary link-button">Top Productos Deseados</a>
                         @endif
                         <a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">{{ __('messages.cart') }}</a>
                         <a href="{{ route('wishlist.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">{{ __('messages.wishlist') }}</a>

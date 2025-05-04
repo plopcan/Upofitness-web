@@ -93,6 +93,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/usuarios/{usuario}/edit', [UsuarioController::class, 'adminEdit'])->name('admin.usuarios.edit');
     Route::post('/admin/usuarios/{usuario}/update', [UsuarioController::class, 'adminUpdate'])->name('admin.usuarios.update');
     Route::delete('/admin/usuarios/{usuario}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
+    Route::get('/admin/top-wishlist-products', [WishlistController::class, 'topWishlistProducts'])->name('admin.topWishlistProducts');
 });
 
 Route::post('/language/change', [LanguageController::class, 'change'])->name('language.change');
