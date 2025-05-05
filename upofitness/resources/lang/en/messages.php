@@ -24,4 +24,7 @@ return [
     'email' => 'support@upofitness.com',
     'address' => 'Example Street 123, Seville, Spain',
     'copyright' => 'Upofitness. All rights reserved.',
+    'login' => 'Login',
+    'user' => 'Manage Users',
+    'top_wishlist_products' => 'Top Wishlist Products',
 ];

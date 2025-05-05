@@ -24,4 +24,7 @@ return [
     'email' => 'soporte@upofitness.com',
     'address' => 'Calle Ejemplo 123, Sevilla, España',
     'copyright' => 'Upofitness. Todos los derechos reservados.',
+    'login' => 'Iniciar Sesión',
+    'user' => 'Gestionar Usuarios',
+    'top_wishlist_products' => 'Top Productos Deseados',
 ];

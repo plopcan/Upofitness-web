@@ -20,12 +20,12 @@
                 <h1 class="text-center">{{ __('messages.upofitness') }}</h1>
                 <nav>
                     <a href="{{ route('products.index') }}" class="btn btn-primary link-button">{{ __('messages.products') }}</a>
-                    <a href="{{ route('productDiscount.index') }}" class="btn btn-primary link-button">{{ __('messages.product_discounts') }}</a>
                     @auth
                         @if(Auth::user()->role->name === 'administrador')
+                    <a href="{{ route('productDiscount.index') }}" class="btn btn-primary link-button">{{ __('messages.product_discounts') }}</a>
                             <a href="{{ route('categories.index') }}" class="btn btn-primary link-button">{{ __('messages.categories') }}</a>
-                            <a href="{{ route('usuarios.manage') }}" class="btn btn-primary link-button">Gestionar Usuarios</a>
-                            <a href="{{ route('admin.topWishlistProducts') }}" class="btn btn-primary link-button">Top Productos Deseados</a>
+                            <a href="{{ route('usuarios.manage') }}" class="btn btn-primary link-button">{{__('messages.user')}}</a>
+                            <a href="{{ route('admin.topWishlistProducts') }}" class="btn btn-primary link-button">{{__('messages.top_wishlist_products')}}</a>
                         @endif
                         <a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">{{ __('messages.cart') }}</a>
                         <a href="{{ route('wishlist.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">{{ __('messages.wishlist') }}</a>
@@ -45,7 +45,7 @@
                                  alt="Perfil" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
                         </a>
                     @else
-                        <a href="{{ route('login') }}" class="btn btn-secondary link-button">Login</a> <!-- Add login button for unauthenticated users -->
+                        <a href="{{ route('login') }}" class="btn btn-secondary link-button">{{__('messages.login')}}</a> <!-- Add login button for unauthenticated users -->
                     @endauth
                 </nav>
             </div>
@@ -137,7 +137,7 @@
                             <li><a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="text-white">{{ __('messages.cart') }}</a></li>
                             <li><a href="{{ route('wishlist.showByUserId', ['id' => Auth::user()->id]) }}" class="text-white">{{ __('messages.wishlist') }}</a></li>
                         @else
-                            <li><a href="{{ route('login') }}" class="text-white">Login</a></li>
+                            <li><a href="{{ route('login') }}" class="text-white">{{__('messages.login')}}</a></li>
                         @endauth
                     </ul>
                 </div>
