@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Usuarios</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 </head>
 <body>
 <div class="container mt-5">
-    <h1 class="mb-4">Gestionar Usuarios</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Gestionar Usuarios</h1>
+        <a href="{{ route('welcome') }}" class="btn btn-secondary">
+            <i class="bi bi-house-fill"></i> Volver a inicio
+        </a>
+    </div>
+    
     <a href="{{ route('register') }}" class="btn btn-primary mb-3">Registrar Usuario</a>
 
     <table class="table table-bordered">
@@ -33,7 +40,7 @@
                         <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro de eliminar este usuario?')">Eliminar</button>
                         </form>
                     </td>
                 </tr>

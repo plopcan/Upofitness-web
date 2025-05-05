@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Top Productos Deseados</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 </head>
 <body class="bg-light">
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Top Productos Deseados</h1>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Top Productos Deseados</h1>
+            <a href="{{ route('welcome') }}" class="btn btn-secondary">
+                <i class="bi bi-house-fill"></i> Volver a inicio
+            </a>
+        </div>
+        
         <div class="card shadow">
             <div class="card-header bg-primary text-white">
                 <h5 class="mb-0">Productos más deseados</h5>

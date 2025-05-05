@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Categorias</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="mb-4">Categorias</h1>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Categorias</h1>
+            <a href="{{ route('welcome') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Volver a inicio
+            </a>
+        </div>
+        
         <a href="{{ route('categories.create') }}" class="btn btn-success mb-3">Crear Categoria</a>
         <table class="table table-bordered">
             <thead>
