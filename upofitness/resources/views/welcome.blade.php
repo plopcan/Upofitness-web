@@ -21,9 +21,9 @@
                 <nav>
                     <a href="{{ route('products.index') }}" class="btn btn-primary link-button">{{ __('messages.products') }}</a>
                     <a href="{{ route('productDiscount.index') }}" class="btn btn-primary link-button">{{ __('messages.product_discounts') }}</a>
-                    <a href="{{ route('categories.index') }}" class="btn btn-primary link-button">{{ __('messages.categories') }}</a>
                     @auth
                         @if(Auth::user()->role->name === 'administrador')
+                            <a href="{{ route('categories.index') }}" class="btn btn-primary link-button">{{ __('messages.categories') }}</a>
                             <a href="{{ route('usuarios.manage') }}" class="btn btn-primary link-button">Gestionar Usuarios</a>
                             <a href="{{ route('admin.topWishlistProducts') }}" class="btn btn-primary link-button">Top Productos Deseados</a>
                         @endif
