@@ -14,8 +14,12 @@
             @method('PUT')
             <div class="mb-3">
                 <label for="name" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{ $category->name }}" required>
+                <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $category->name) }}" required>
                 <div id="nameError" class="text-danger" style="display: none;">El nombre es obligatorio.</div>
+                <div id="nameDuplicateError" class="text-danger" style="display: none;">Ya existe una categoría con este nombre.</div>
+                @error('name')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Descripcion</label>
@@ -27,7 +31,7 @@
         </form>
     </div>
     <script>
-        function validateForm() {
+        async function validateForm() {
             let isValid = true;
             const name = document.getElementById('name').value.trim();
             const description = document.getElementById('description').value.trim();
@@ -37,6 +41,17 @@
 
             if (!name || !description) {
                 isValid = false;
+            }
+
+            if (name) {
+                const response = await fetch(`/categories/check-name?name=${encodeURIComponent(name)}&excludeId={{ $category->id }}`);
+                const data = await response.json();
+                if (data.exists) {
+                    document.getElementById('nameDuplicateError').style.display = 'block';
+                    isValid = false;
+                } else {
+                    document.getElementById('nameDuplicateError').style.display = 'none';
+                }
             }
 
             return isValid;
