@@ -11,18 +11,18 @@
 <body>
 <div class="container">
     <h1>{{ $product->name }}</h1>
-    <p><strong>Description:</strong> {{ $product->description }}</p>
-    <p><strong>Price:</strong> ${{ $product->price }}</p>
+    <p><strong>Descripcion:</strong> {{ $product->description }}</p>
+    <p><strong>Precio:</strong> ${{ $product->price }}</p>
     <p><strong>Stock:</strong> {{ $product->stock }}</p>
-    <p><strong>Available:</strong> {{ $product->available ? 'Yes' : 'No' }}</p>
-    <p><strong>Categories:</strong></p>
+    <p><strong>Disponible:</strong> {{ $product->available ? 'Yes' : 'No' }}</p>
+    <p><strong>Categorias:</strong></p>
     <ul>
         @foreach ($product->categories as $category)
             <li>{{ $category->name }}</li>
         @endforeach
     </ul>
 
-    <h3>Images</h3>
+    <h3>Imagenes</h3>
     @if ($product->images->count() > 0)
         <div id="productImagesCarousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
@@ -34,15 +34,15 @@
             </div>
             <a class="carousel-control-prev" href="#productImagesCarousel" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
+                <span class="sr-only">Anterior</span>
             </a>
             <a class="carousel-control-next" href="#productImagesCarousel" role="button" data-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
+                <span class="sr-only">Siguiente</span>
             </a>
         </div>
     @else
-        <p>No images available for this product.</p>
+        <p>No hay imagenes disponibles.</p>
     @endif
 
     <a href="{{ route('products.index') }}" class="btn btn-primary mt-3">Back to Products</a>

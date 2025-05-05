@@ -7,20 +7,20 @@
 </head>
 <body>
 <div class="container">
-    <h1>Edit Product</h1>
+    <h1>Editar Producto</h1>
     <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="form-group">
-            <label for="name">Name</label>
+            <label for="name">Nombre</label>
             <input type="text" name="name" id="name" class="form-control" value="{{ $product->name }}" required>
         </div>
         <div class="form-group">
-            <label for="description">Description</label>
+            <label for="description">Descripcion</label>
             <textarea name="description" id="description" class="form-control">{{ $product->description }}</textarea>
         </div>
         <div class="form-group">
-            <label for="price">Price</label>
+            <label for="price">Precio</label>
             <input type="number" name="price" id="price" class="form-control" value="{{ $product->price }}" required>
         </div>
         <div class="form-group">
@@ -28,14 +28,14 @@
             <input type="number" name="stock" id="stock" class="form-control" value="{{ $product->stock }}" required>
         </div>
         <div class="form-group">
-            <label for="available">Available</label>
+            <label for="available">Disponible</label>
             <select name="available" id="available" class="form-control" required>
                 <option value="1" {{ $product->available ? 'selected' : '' }}>Yes</option>
                 <option value="0" {{ !$product->available ? 'selected' : '' }}>No</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="categories">Categories</label>
+            <label for="categories">Categorias</label>
             <div>
                 @foreach($categories as $category)
                     <div class="form-check">
@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label>Existing Images:</label>
+            <label>Imagenes:</label>
             <div class="row">
                 @foreach ($product->images as $image)
                     <div class="col-md-3">

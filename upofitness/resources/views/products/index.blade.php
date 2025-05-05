@@ -7,18 +7,18 @@
 </head>
 <body>
 <div class="container">
-    <h1>Products</h1>
+    <h1>Productos</h1>
     <a href="{{ route('products.create') }}" class="btn btn-primary">Create Product</a>
     <table class="table mt-3">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Precio</th>
                 <th>Stock</th>
-                <th>Available</th>
-                <th>Categories</th>
-                <th>Actions</th>
+                <th>Disponible</th>
+                <th>Categorias</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>

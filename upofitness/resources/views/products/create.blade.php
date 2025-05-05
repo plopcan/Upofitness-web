@@ -7,19 +7,19 @@
 </head>
 <body>
 <div class="container">
-    <h1>Create Product</h1>
+    <h1>Crear Producto</h1>
     <form action="{{ route('products.store') }}" method="POST">
         @csrf
         <div class="form-group">
-            <label for="name">Name</label>
+            <label for="name">Nombre</label>
             <input type="text" name="name" id="name" class="form-control" required>
         </div>
         <div class="form-group">
-            <label for="description">Description</label>
+            <label for="description">Descripcion</label>
             <textarea name="description" id="description" class="form-control"></textarea>
         </div>
         <div class="form-group">
-            <label for="price">Price</label>
+            <label for="price">Precio</label>
             <input type="number" name="price" id="price" class="form-control" required>
         </div>
         <div class="form-group">
@@ -27,14 +27,14 @@
             <input type="number" name="stock" id="stock" class="form-control" required>
         </div>
         <div class="form-group">
-            <label for="available">Available</label>
+            <label for="available">Disponible</label>
             <select name="available" id="available" class="form-control" required>
                 <option value="1">Yes</option>
                 <option value="0">No</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="categories">Categories</label>
+            <label for="categories">Categorias</label>
             <div>
                 @foreach($categories as $category)
                     <div class="form-check">
