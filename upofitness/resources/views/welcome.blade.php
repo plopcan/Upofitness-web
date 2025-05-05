@@ -11,7 +11,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Styles / Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/bootstrap.bundle.js'])
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header class="navbar-style-7 position-relative bg-dark text-white">
