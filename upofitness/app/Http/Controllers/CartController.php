@@ -205,6 +205,13 @@ class CartController extends Controller
             \Log::error('Error al enviar correo de confirmación: ' . $e->getMessage());
             \Log::error($e->getTraceAsString());
         }
+
+        foreach ($cart->products as $product) {
+            $newStock = $product->stock - $product->pivot->quantity;
+            // Asegurar que el stock no sea negativo
+            $product->stock = max(0, $newStock);
+            $product->save();
+        }
         
         // Vaciar el carrito después del pago
         $cart->products()->detach();
