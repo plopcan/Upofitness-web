@@ -9,6 +9,7 @@
         .content { padding: 20px 0; }
         .details { background: #f9f9f9; padding: 15px; margin: 15px 0; }
     </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
     <div class="container">
