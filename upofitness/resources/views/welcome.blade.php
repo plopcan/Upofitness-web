@@ -28,6 +28,7 @@
                     <a href="{{ route('productDiscount.index') }}" class="btn btn-primary link-button">{{ __('messages.product_discounts') }}</a>
                             <a href="{{ route('categories.index') }}" class="btn btn-primary link-button">{{ __('messages.categories') }}</a>
                             <a href="{{ route('usuarios.manage') }}" class="btn btn-primary link-button">{{__('messages.user')}}</a>
+                            <a href="{{ route('promotion.index') }}" class="btn btn-primary link-button">Códigos Promocionales</a>
                             <a href="{{ route('admin.topWishlistProducts') }}" class="btn btn-primary link-button">{{__('messages.top_wishlist_products')}}</a>
                         @endif
                         <a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">{{ __('messages.cart') }}</a>

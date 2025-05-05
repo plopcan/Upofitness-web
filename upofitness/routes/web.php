@@ -95,6 +95,14 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/admin/usuarios/{usuario}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
     Route::get('/admin/top-wishlist-products', [WishlistController::class, 'topWishlistProducts'])->name('admin.topWishlistProducts');
     Route::patch('/orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+
+    // Rutas para gestión de códigos promocionales (solo administradores)
+    Route::get('/promotion', [PromotionCodeController::class, 'index'])->name('promotion.index');
+    Route::get('/promotion/create', [PromotionCodeController::class, 'create'])->name('promotion.create');
+    Route::post('/promotion', [PromotionCodeController::class, 'store'])->name('promotion.store');
+    Route::get('/promotion/{id}/edit', [PromotionCodeController::class, 'edit'])->name('promotion.edit');
+    Route::put('/promotion/{id}', [PromotionCodeController::class, 'update'])->name('promotion.update');
+    Route::delete('/promotion/{id}', [PromotionCodeController::class, 'destroy'])->name('promotion.destroy');
 });
 
 Route::post('/language/change', [LanguageController::class, 'change'])->name('language.change');
