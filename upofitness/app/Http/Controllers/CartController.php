@@ -65,13 +65,18 @@ class CartController extends Controller
 
     public function showByUserId($id)
     {
-        // Verificar si el ID es nulo o si el usuario no está autenticado
+        $cart = Cart::where('usuario_id', $id)->first();
+        
+        if ($cart) {
+            // Agregar paginación a los productos del carrito
+            $products = $cart->products()->paginate(10);
+            $cart->setRelation('products', $products);
+        }
+
         if ($id === null) {
             return response()->view('cart', ['error' => 'Debes iniciar sesión para acceder al carrito.']);
         }
 
-        $cart = Cart::with('products')->where('usuario_id', $id)->first();
-        
         if (!$cart) {
             $cart = Cart::create(['usuario_id' => $id]);
         }
@@ -82,7 +87,7 @@ class CartController extends Controller
         // Obtener los métodos de pago del usuario
         $paymentMethods = PaymentMethod::where('usuario_id', $id)->get();
 
-        return view('cart', compact('cart', 'addresses', 'paymentMethods'));
+        return view('cart', compact('cart','addresses', 'paymentMethods'));
     }
 
     public function checkout(Request $request)

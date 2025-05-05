@@ -47,6 +47,11 @@
                 </tbody>
             </table>
             
+            <!-- Después de la tabla de productos -->
+            <div class="d-flex justify-content-center mt-4">
+                {{ $cart->products->links() }}
+            </div>
+            
             <div class="card mt-4 mb-4">
                 <div class="card-header">
                     <h3>Finalizar Compra</h3>

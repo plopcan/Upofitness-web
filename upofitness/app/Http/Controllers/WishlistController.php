@@ -11,20 +11,14 @@ class WishlistController extends Controller
 {
     public function showByUserId($id)
     {
-        // Verificar si el ID es nulo o si el usuario no está autenticado
-        if ($id === null) {
-            return response()->view('wishlist', ['error' => 'Debes iniciar sesión para acceder a la lista de deseos.']);
+        $wishlist = Wishlist::where('usuario_id', $id)->first();
+        
+        if ($wishlist) {
+            // Agregar paginación a los productos de la lista de deseos
+            $products = $wishlist->products()->paginate(20);
+            $wishlist->setRelation('products', $products);
         }
-
-        $wishlist = Wishlist::with('products')->where('usuario_id', $id)->first();
-
-        if (!$wishlist) {
-            // Si el usuario no tiene una lista de deseos, creamos una
-            $wishlist = Wishlist::create([
-                'usuario_id' => $id
-            ]);
-        }
-
+        
         return view('wishlist', compact('wishlist'));
     }
 

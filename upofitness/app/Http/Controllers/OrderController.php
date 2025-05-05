@@ -149,21 +149,10 @@ class OrderController extends Controller
     /**
      * Display all orders for a specific user.
      */
-    public function showByUserId($id = null)
+    public function showByUserId($id)
     {
-        $user = Auth::user();
-
-        if ($user->role->name === 'administrador') {
-            // Administrador: Ver todas las órdenes sin distinguir por usuarios
-            $orders = Order::with('product')->get();
-
-            return view('orders', compact('orders'));
-        } else {
-            // Usuario normal: Ver solo sus órdenes
-            $orders = Order::with('product')->where('usuario_id', $user->id)->get();
-
-            return view('orders', compact('orders'));
-        }
+        $orders = Order::where('usuario_id', $id)->orderBy('purchase_date', 'desc')->paginate(10);
+        return view('orders', compact('orders'));
     }
 
     /**
