@@ -115,19 +115,7 @@
         </section>
         <!-- End of Carousel -->
         
-        <section class="header-style-1">
-            <div class="header-big">
-                <div class="header-items-active">
-                    <div class="single-header-item bg_cover"
-                        style="background-image: url('assets/images/header-1/header-big-1.jpg');">
-                        <div class="header-item-content text-center">
-                            <h3 class="title">{{ __('messages.welcome_to_upofitness') }}</h3>
-                            <p>{{ __('messages.manage_people') }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+
     </main>
 
     <!-- Footer -->

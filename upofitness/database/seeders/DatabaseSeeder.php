@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             PaymentSeeder::class,
             InvoiceSeeder::class,
             WishlistSeeder::class,
+            CategoryProductSeeder::class,
         ]);
     }
 }
