@@ -35,6 +35,7 @@ class ProductDiscountController extends Controller
             'product_id' => 'required|exists:products,id',
             'percentage' => 'required|numeric|min:0|max:100',
             'expiration_date' => 'required|date|after:today',
+            'name' => 'required|string|max:255|unique:product_discounts,name',
         ]);
 
         ProductDiscount::create($validatedData);
@@ -63,6 +64,7 @@ class ProductDiscountController extends Controller
             'product_id' => 'required|exists:products,id',
             'percentage' => 'required|numeric|min:0|max:100',
             'expiration_date' => 'required|date|after:today',
+            'name' => 'required|string|max:255|unique:product_discounts,name,' . $discount->id,
         ]);
 
         $discount->update($validatedData);
@@ -80,5 +82,20 @@ class ProductDiscountController extends Controller
         $discount->delete();
 
         return redirect()->route('productDiscount.index')->with('success', 'Discount deleted successfully');
+    }
+
+    public function applyDiscounts()
+    {
+        $discounts = ProductDiscount::with('product')->where('expiration_date', '>', now())->get();
+
+        foreach ($discounts as $discount) {
+            $product = $discount->product;
+            if ($product) {
+                $discountedPrice = $product->price * (1 - ($discount->percentage / 100));
+                $product->update(['price' => round($discountedPrice, 2)]);
+            }
+        }
+
+        return redirect()->route('productDiscount.index')->with('success', 'Discounts applied successfully to products.');
     }
 }

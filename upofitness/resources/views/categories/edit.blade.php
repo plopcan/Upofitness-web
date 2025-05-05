@@ -23,7 +23,10 @@
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Descripcion</label>
-                <textarea class="form-control" id="description" name="description" rows="3">{{ $category->description }}</textarea>
+                <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{ $category->description }}</textarea>
+                @error('description')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
                 <div id="descriptionError" class="text-danger" style="display: none;">La descripcion es obligatoria.</div>
             </div>
             <button type="submit" class="btn btn-primary">Actualizar Categoria</button>

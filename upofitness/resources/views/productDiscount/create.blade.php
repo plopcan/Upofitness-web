@@ -36,26 +36,35 @@
                     
                     <div class="mb-3">
                         <label for="product_id" class="form-label">Producto</label>
-                        <select name="product_id" id="product_id" class="form-select" required>
+                        <select name="product_id" id="product_id" class="form-select @error('product_id') is-invalid @enderror" required>
                             <option value="">Seleccionar producto</option>
                             @foreach($products as $product)
                                 <option value="{{ $product->id }}">{{ $product->name }} - ${{ $product->price }}</option>
                             @endforeach
                         </select>
+                        @error('product_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     
                     <div class="mb-3">
                         <label for="percentage" class="form-label">Porcentaje de Descuento</label>
                         <div class="input-group">
-                            <input type="number" name="percentage" id="percentage" class="form-control" min="1" max="100" value="{{ old('percentage') }}" required>
+                            <input type="number" name="percentage" id="percentage" class="form-control @error('percentage') is-invalid @enderror" min="1" max="100" value="{{ old('percentage') }}" required>
                             <span class="input-group-text">%</span>
                         </div>
+                        @error('percentage')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                         <small class="text-muted">Introduce un valor entre 1 y 100</small>
                     </div>
                     
                     <div class="mb-3">
                         <label for="expiration_date" class="form-label">Fecha de Expiración</label>
-                        <input type="date" name="expiration_date" id="expiration_date" class="form-control" value="{{ old('expiration_date') ?? \Carbon\Carbon::now()->addDays(30)->format('Y-m-d') }}" required>
+                        <input type="date" name="expiration_date" id="expiration_date" class="form-control @error('expiration_date') is-invalid @enderror" value="{{ old('expiration_date') ?? \Carbon\Carbon::now()->addDays(30)->format('Y-m-d') }}" required>
+                        @error('expiration_date')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     
                     <div class="d-grid">

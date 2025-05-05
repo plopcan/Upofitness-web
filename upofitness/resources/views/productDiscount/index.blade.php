@@ -35,6 +35,12 @@
             <a href="{{ route('productDiscount.create') }}" class="btn btn-success">
                 <i class="bi bi-plus-circle"></i> Crear Nuevo Descuento
             </a>
+            <form action="{{ route('productDiscount.apply') }}" method="POST" class="d-inline">
+                @csrf
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-circle"></i> Aplicar Descuentos
+                </button>
+            </form>
         </div>
 
         <!-- Tabla de descuentos -->

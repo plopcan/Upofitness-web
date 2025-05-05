@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\ProductDiscount;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 
@@ -30,13 +31,20 @@ class ProductDiscountSeeder extends Seeder
         foreach (range(1, 10) as $productId) {
             $discount = $discounts[array_rand($discounts)];
 
-            ProductDiscount::create([
+            $productDiscount = ProductDiscount::create([
                 'product_id' => $productId,
                 'percentage' => $discount['percentage'],
                 'expiration_date' => $discount['expiration_date'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
+
+            // Aplicar el descuento al producto
+            $product = Product::find($productId);
+            if ($product) {
+                $discountedPrice = $product->price * (1 - ($productDiscount->percentage / 100));
+                $product->update(['price' => round($discountedPrice, 2)]);
+            }
         }
     }
 }

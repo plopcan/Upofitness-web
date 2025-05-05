@@ -22,8 +22,10 @@
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Descripcion</label>
-                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-                <div id="descriptionError" class="text-danger" style="display: none;">La descripcion es obligatoria.</div>
+                <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3"></textarea>
+                @error('description')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <button type="submit" class="btn btn-primary">Crear</button>
             <a href="{{ route('categories.index') }}" class="btn btn-secondary">Cancelar</a>
