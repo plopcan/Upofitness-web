@@ -19,6 +19,7 @@ class UsuarioSeeder extends Seeder
             'password' => bcrypt('password'),
             'phone' => '123456789',
             'role_id' => 1,
+            'image_id' => 11,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -29,6 +30,7 @@ class UsuarioSeeder extends Seeder
             'password' => bcrypt('password'),
             'phone' => '987654321',
             'role_id' => 2,
+            'image_id' => 12,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -38,6 +40,7 @@ class UsuarioSeeder extends Seeder
             'password' => bcrypt('password'),
             'phone' => '888888888',
             'role_id' => 1,
+            'image_id' => 13,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -48,6 +51,7 @@ class UsuarioSeeder extends Seeder
             'password' => bcrypt('password'),
             'phone' => '999999999',
             'role_id' => 1,
+            'image_id' => 14,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -58,6 +62,7 @@ class UsuarioSeeder extends Seeder
             'password' => bcrypt('password'),
             'phone' => '101010101',
             'role_id' => 1,
+            'image_id' => 15,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -68,6 +73,7 @@ class UsuarioSeeder extends Seeder
             'password' => bcrypt('password'),
             'phone' => '121212121',
             'role_id' => 1,
+            'image_id' => 16,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -78,6 +84,7 @@ class UsuarioSeeder extends Seeder
             'password' => bcrypt('password'),
             'phone' => '131313131',
             'role_id' => 1,
+            'image_id' => 17,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -89,6 +96,7 @@ class UsuarioSeeder extends Seeder
             'password' => bcrypt('password'),
             'phone' => '666666666',
             'role_id' => 1,
+            'image_id' => 18,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -99,6 +107,7 @@ class UsuarioSeeder extends Seeder
             'password' => bcrypt('password'),
             'phone' => '777777777',
             'role_id' => 1,
+            'image_id' => 19,
             'created_at' => now(),
             'updated_at' => now(),
         ]);

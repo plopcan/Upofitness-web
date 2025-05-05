@@ -30,6 +30,15 @@ header, footer {
     color: var(--text-color);
 }
 
+.logo{
+    height: 10em;
+    margin-left: -5em; /* Move the logo slightly to the left */
+}
+
+header nav {
+    margin-top: 5em; /* Move the header buttons further down */
+}
+
 .login-wrapper {
     min-height: 100vh;
     background: linear-gradient(to right, var(--secondary-color), var(--primary-color));

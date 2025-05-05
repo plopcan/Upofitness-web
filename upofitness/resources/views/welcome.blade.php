@@ -12,12 +12,15 @@
 
     <!-- Styles / Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/bootstrap.bundle.js'])
+    <link rel="icon" type="image/png" href="{{ asset('storage/logo.png') }}">
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header class="navbar-style-7 position-relative text-white">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-3">
-                <h1 class="text-center">{{ __('messages.upofitness') }}</h1>
+                <a href="{{ url('/') }}">
+                    <img src="{{ asset('storage/logo.png') }}" alt="Upofitness Logo" class="logo">
+                </a>
                 <nav>
                     <a href="{{ route('products.index') }}" class="btn btn-primary link-button">{{ __('messages.products') }}</a>
                     @auth
