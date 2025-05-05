@@ -49,6 +49,10 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        // Desvincular la categoría de los productos asociados
+        $category->products()->detach();
+
+        // Eliminar la categoría
         $category->delete();
 
         return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');

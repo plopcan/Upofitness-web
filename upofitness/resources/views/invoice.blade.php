@@ -47,7 +47,17 @@
         </tr>
         <tr>
             <th>Estado</th>
-            <td>{{ $order->status }}</td>
+            <td>
+                <form action="{{ route('orders.updateStatus', $order->id) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <select name="status" class="form-select" onchange="this.form.submit()">
+                        <option value="pendiente" {{ $order->status === 'pendiente' ? 'selected' : '' }}>Pendiente</option>
+                        <option value="en camino" {{ $order->status === 'en camino' ? 'selected' : '' }}>En camino</option>
+                        <option value="entregado" {{ $order->status === 'entregado' ? 'selected' : '' }}>Entregado</option>
+                    </select>
+                </form>
+            </td>
         </tr>
         <tr>
             <th>Dirección</th>

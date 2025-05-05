@@ -165,4 +165,20 @@ class OrderController extends Controller
             return view('orders', compact('orders'));
         }
     }
+
+    /**
+     * Update the status of the specified order.
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|string|in:pendiente,en camino,entregado',
+        ]);
+
+        $order = Order::findOrFail($id);
+        $order->status = $request->status;
+        $order->save();
+
+        return back()->with('success', 'Estado del pedido actualizado correctamente.');
+    }
 }

@@ -94,6 +94,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/usuarios/{usuario}/update', [UsuarioController::class, 'adminUpdate'])->name('admin.usuarios.update');
     Route::delete('/admin/usuarios/{usuario}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
     Route::get('/admin/top-wishlist-products', [WishlistController::class, 'topWishlistProducts'])->name('admin.topWishlistProducts');
+    Route::patch('/orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
 });
 
 Route::post('/language/change', [LanguageController::class, 'change'])->name('language.change');

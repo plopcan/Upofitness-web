@@ -40,7 +40,15 @@
                     <p>{{ $product->description }}</p>
                     <p><strong>Precio:</strong> ${{ $product->price }}</p>
                     <p><strong>Stock:</strong> {{ $product->stock }}</p>
-                    
+                    <p><strong>Categorías:</strong> 
+                        @if($product->categories->isNotEmpty())
+                            @foreach($product->categories as $category)
+                                <span class="badge bg-primary">{{ $category->name }}</span>
+                            @endforeach
+                        @else
+                            <span class="text-muted">Sin categoría</span>
+                        @endif
+                    </p>
                     @auth
                         <a href="{{ route('cart.add', ['productId' => $product->id]) }}" class="btn btn-primary">Añadir al carrito</a>
                         <form action="{{ route('wishlist.add', ['productId' => $product->id]) }}" method="POST" style="display: inline;">
