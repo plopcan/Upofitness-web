@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Descuento | Upofitness</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Editar Descuento</h1>
+            <a href="{{ route('productDiscount.index') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
+        </div>
+
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">Formulario de Edición</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('productDiscount.update', $discount->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    
+                    <div class="mb-3">
+                        <label for="product_id" class="form-label">Producto</label>
+                        <select name="product_id" id="product_id" class="form-select" required>
+                            <option value="">Seleccionar producto</option>
+                            @foreach($products as $product)
+                                <option value="{{ $product->id }}" {{ $product->id == $discount->product_id ? 'selected' : '' }}>
+                                    {{ $product->name }} - ${{ $product->price }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="percentage" class="form-label">Porcentaje de Descuento</label>
+                        <div class="input-group">
+                            <input type="number" name="percentage" id="percentage" class="form-control" min="1" max="100" value="{{ old('percentage', $discount->percentage) }}" required>
+                            <span class="input-group-text">%</span>
+                        </div>
+                        <small class="text-muted">Introduce un valor entre 1 y 100</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="expiration_date" class="form-label">Fecha de Expiración</label>
+                        <input type="date" name="expiration_date" id="expiration_date" class="form-control" value="{{ old('expiration_date', \Carbon\Carbon::parse($discount->expiration_date)->format('Y-m-d')) }}" required>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-check-circle"></i> Actualizar Descuento
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
