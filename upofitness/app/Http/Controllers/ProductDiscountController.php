@@ -35,7 +35,6 @@ class ProductDiscountController extends Controller
             'product_id' => 'required|exists:products,id',
             'percentage' => 'required|numeric|min:0|max:100',
             'expiration_date' => 'required|date|after:today',
-            'name' => 'required|string|max:255|unique:product_discounts,name',
         ]);
 
         ProductDiscount::create($validatedData);
@@ -64,7 +63,6 @@ class ProductDiscountController extends Controller
             'product_id' => 'required|exists:products,id',
             'percentage' => 'required|numeric|min:0|max:100',
             'expiration_date' => 'required|date|after:today',
-            'name' => 'required|string|max:255|unique:product_discounts,name,' . $discount->id,
         ]);
 
         $discount->update($validatedData);
@@ -86,12 +84,17 @@ class ProductDiscountController extends Controller
 
     public function applyDiscounts()
     {
-        $discounts = ProductDiscount::with('product')->where('expiration_date', '>', now())->get();
+        $discounts = ProductDiscount::with('product')
+            ->where('expiration_date', '>', now())
+            ->get()
+            ->groupBy('product_id');
 
-        foreach ($discounts as $discount) {
-            $product = $discount->product;
+        foreach ($discounts as $productId => $productDiscounts) {
+            $highestDiscount = $productDiscounts->sortByDesc('percentage')->first();
+
+            $product = $highestDiscount->product;
             if ($product) {
-                $discountedPrice = $product->price * (1 - ($discount->percentage / 100));
+                $discountedPrice = $product->price * (1 - ($highestDiscount->percentage / 100));
                 $product->update(['price' => round($discountedPrice, 2)]);
             }
         }
