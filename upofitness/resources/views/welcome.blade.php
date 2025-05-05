@@ -14,7 +14,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/bootstrap.bundle.js'])
 </head>
 <body class="d-flex flex-column min-vh-100">
-    <header class="navbar-style-7 position-relative bg-dark text-white">
+    <header class="navbar-style-7 position-relative text-white">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-3">
                 <h1 class="text-center">{{ __('messages.upofitness') }}</h1>
@@ -119,7 +119,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="py-16 text-center text-sm text-black dark:text-white/70 mt-auto bg-dark text-white">
+    <footer class="py-16 text-center text-sm text-black dark:text-white/70 mt-auto text-white">
         <div class="container">
             <div class="row">
                 <!-- About Section -->

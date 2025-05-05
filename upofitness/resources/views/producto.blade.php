@@ -9,7 +9,7 @@
 </head>
 <body>
     <!-- Navbar -->
-    <header class="navbar-style-7 position-relative bg-dark text-white">
+    <header class="navbar-style-7 position-relative text-white">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-3">
                 <h1 class="text-center">Upofitness</h1>
@@ -60,8 +60,8 @@
                 @foreach ($products as $product)
                     @if($product->available == 1 || (Auth::check() && Auth::user()->role_id == 2))
                         <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card shadow-sm">
-                                <div class="card-img-container position-relative">
+                            <div class="card shadow-sm card-background">
+                                <div class="card-img-container position-relative ">
                                     @if($product->images->count() > 0)
                                         <img src="{{ asset('storage/' . $product->images->first()->url) }}" 
                                              class="card-img-top" alt="{{ $product->name }}">
@@ -186,7 +186,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="py-16 text-center text-sm text-black dark:text-white/70 mt-auto bg-dark text-white">
+    <footer class="py-16 text-center text-sm text-black dark:text-white/70 mt-auto text-white">
         <div class="container">
             <p>© {{ date('Y') }} Upofitness. Todos los derechos reservados.</p>
         </div>

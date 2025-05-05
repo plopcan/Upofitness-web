@@ -5,80 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Deseos | Upofitness</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .wishlist-container {
-            flex: 1;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .product-card {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .product-image {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 4px;
-        }
-
-        .empty-wishlist {
-            text-align: center;
-            padding: 50px 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-back {
-            margin-bottom: 20px;
-        }
-
-        .page-title {
-            margin-bottom: 30px;
-            color: #333;
-            border-bottom: 2px solid #dc3545;
-            padding-bottom: 10px;
-            display: inline-block;
-        }
-
-        .clear-wishlist-btn {
-            margin-top: 20px;
-        }
-
-        footer {
-            margin-top: auto;
-        }
-    </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body>
+<body class="body-wishlist">
     <!-- Navbar -->
-    <header class="navbar-style-7 position-relative bg-dark text-white">
+    <header class="navbar-style-7 position-relative text-white">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-3">
                 <h1 class="text-center">Upofitness</h1>
@@ -135,7 +68,7 @@
             <div class="row">
                 @foreach($wishlist->products as $product)
                     <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="product-card h-100 p-3">
+                        <div class="product-card h-100 p-3 card-background">
                             <div class="d-flex gap-3">
                                 @if($product->images->count() > 0)
                                     <img src="{{ asset('storage/' . $product->images->first()->url) }}" alt="{{ $product->name }}" class="product-image">
@@ -189,7 +122,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="py-4 text-center text-white bg-dark mt-5">
+    <footer class="py-4 text-center text-white mt-5 footer-wishlist">
         <div class="container">
             <p class="mb-0">© {{ date('Y') }} Upofitness. Todos los derechos reservados.</p>
         </div>
