@@ -84,6 +84,34 @@
                     <button type="submit" class="btn btn-primary">Subir imágenes</button>
                 </form>
             </div>
+            
+            {{-- Formulario de valoración --}}
+            <div class="mt-4">
+                <h3>Valora este producto</h3>
+                @auth
+                    <form action="{{ route('valoraciones.storeOrUpdate') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="usuario_id" value="{{ auth()->user()->id }}">
+                        <input type="hidden" name="producto_id" value="{{ $product->id }}">
+                        <div class="mb-3">
+                            <label for="puntuacion" class="form-label">Puntuación</label>
+                            <select name="puntuacion" id="puntuacion" class="form-control" required>
+                                <option value="">Selecciona una puntuación</option>
+                                @for($i = 1; $i <= 5; $i++)
+                                    <option value="{{ $i }}">{{ $i }} ⭐</option>
+                                @endfor
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="comentario" class="form-label">Comentario</label>
+                            <textarea name="comentario" id="comentario" class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">Enviar valoración</button>
+                    </form>
+                @else
+                    <p><a href="{{ route('login') }}">Inicia sesión</a> para valorar este producto.</p>
+                @endauth
+            </div>
         </div>
     </main>
     

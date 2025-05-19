@@ -22,6 +22,8 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\ValorationController;
+
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
@@ -128,3 +130,4 @@ Route::post('/email/verification-notification', function (Request $request) {
 Route::post('/productDiscount/apply', [ProductDiscountController::class, 'applyDiscounts'])->name('productDiscount.apply');
 
 
+Route::post('/valoraciones', [ValorationController::class, 'storeOrUpdate'])->name('valoraciones.storeOrUpdate');
