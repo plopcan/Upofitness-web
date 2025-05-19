@@ -9,6 +9,9 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Styles / Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/bootstrap.bundle.js'])
@@ -31,23 +34,32 @@
                             <a href="{{ route('promotion.index') }}" class="btn btn-primary link-button">Códigos Promocionales</a>
                             <a href="{{ route('admin.topWishlistProducts') }}" class="btn btn-primary link-button">{{__('messages.top_wishlist_products')}}</a>
                         @endif
-                        <a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">{{ __('messages.cart') }}</a>
                         <a href="{{ route('wishlist.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">{{ __('messages.wishlist') }}</a>
                         <a href="{{ route('orders.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">@lang('messages.orders_invoices')</a>
                         <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                             @csrf
                             <button type="submit" class="btn btn-secondary link-button">{{ __('messages.logout') }}</button>
                         </form>
-                        <a href="{{ route('profile.edit') }}" class="profile-button">
-                            @php
-                                $imageUrl = null;
-                                if (Auth::user()->image_id && Auth::user()->image) {
-                                    $imageUrl = asset('storage/' . Auth::user()->image->url);
-                                }
-                            @endphp
-                            <img src="{{ $imageUrl ?? 'https://via.placeholder.com/50' }}" 
-                                 alt="Perfil" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
-                        </a>
+                        
+                        <!-- Agrupamos el carrito y el perfil de usuario -->
+                        <div class="d-inline-flex align-items-center ms-2">
+                            <!-- Carrito (a la izquierda del perfil) -->
+                            <a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button me-2" title="{{ __('messages.cart') }}">
+                                <i class="fas fa-shopping-cart"></i>
+                            </a>
+                            
+                            <!-- Perfil de usuario -->
+                            <a href="{{ route('profile.edit') }}" class="profile-button">
+                                @php
+                                    $imageUrl = null;
+                                    if (Auth::user()->image_id && Auth::user()->image) {
+                                        $imageUrl = asset('storage/' . Auth::user()->image->url);
+                                    }
+                                @endphp
+                                <img src="{{ $imageUrl ?? 'https://via.placeholder.com/50' }}" 
+                                     alt="Perfil" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                            </a>
+                        </div>
                     @else
                         <a href="{{ route('login') }}" class="btn btn-secondary link-button">{{__('messages.login')}}</a> <!-- Add login button for unauthenticated users -->
                     @endauth
@@ -57,24 +69,26 @@
     </header>
 
     <main class="mt-6 flex-grow-1">
-        <h1>
-            @auth
-                {{ __('messages.welcome_user', ['name' => Auth::user()->name]) }}
-            @else
-                {{ __('messages.welcome_guest') }}
-            @endauth
-        </h1>
-        <p>
-            @auth
-                {{ __('messages.main_page_user') }}
-            @else
-                {{ __('messages.main_page_guest') }}
-            @endauth
-        </p>
+        <div class="container text-center"> 
+            <h1 class="mb-4"> 
+                @auth
+                    {{ __('messages.welcome_user', ['name' => Auth::user()->name]) }}
+                @else
+                    {{ __('messages.welcome_guest') }}
+                @endauth
+            </h1>
+            <p class="lead mb-5"> 
+                @auth
+                    {{ __('messages.main_page_user') }}
+                @else
+                    {{ __('messages.main_page_guest') }}
+                @endauth
+            </p>
+        </div>
 
         <!-- Carousel for latest products -->
         <section class="carousel-section my-5">
-            <div id="latestProductsCarousel" class="carousel slide bg-secondary p-3 rounded" data-bs-ride="carousel">
+            <div id="latestProductsCarousel" class="carousel slide " data-bs-ride="carousel">
                 <div class="carousel-indicators">
                     @foreach ($latestProducts as $index => $product)
                         <button 
