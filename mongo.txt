@@ -15,3 +15,10 @@ composer require jenssegers/mongodb
 
 7. Por ultimo actualizar compose
     composer dump-autoload
+
+8. Actualizar .env, añadiendo: 
+DB_MONGO_HOST=127.0.0.1
+DB_MONGO_HOST_PORT=27017
+DB_MONGO_DATABASE=valorations
+DB_MONGO_USERNAME=
+DB_MONGO_PASSWORD=
