@@ -26,4 +26,24 @@ class UsuarioTest extends TestCase
         $this->assertInstanceOf(Role::class, $usuario->role);
         $this->assertEquals($usuario->role_id, $usuario->role->id);
     }
+
+    public function test_usuario_can_be_updated()
+    {
+        $usuario = Usuario::factory()->create();
+        $usuario->email = 'updated@email.com';
+        $usuario->save();
+        $this->assertDatabaseHas('usuarios', [
+            'id' => $usuario->id,
+            'email' => 'updated@email.com',
+        ]);
+    }
+
+    public function test_usuario_can_be_deleted()
+    {
+        $usuario = Usuario::factory()->create();
+        $usuario->delete();
+        $this->assertDatabaseMissing('usuarios', [
+            'id' => $usuario->id,
+        ]);
+    }
 }

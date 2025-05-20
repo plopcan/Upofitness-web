@@ -35,4 +35,24 @@ class InvoiceTest extends TestCase
         $this->assertInstanceOf(Order::class, $invoice->order);
         $this->assertEquals($order->id, $invoice->order->id);
     }
+
+    public function test_invoice_can_be_updated()
+    {
+        $invoice = Invoice::factory()->create();
+        $invoice->tax_percentage = 10;
+        $invoice->save();
+        $this->assertDatabaseHas('invoices', [
+            'id' => $invoice->id,
+            'tax_percentage' => 10,
+        ]);
+    }
+
+    public function test_invoice_can_be_deleted()
+    {
+        $invoice = Invoice::factory()->create();
+        $invoice->delete();
+        $this->assertDatabaseMissing('invoices', [
+            'id' => $invoice->id,
+        ]);
+    }
 }

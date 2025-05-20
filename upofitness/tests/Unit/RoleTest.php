@@ -26,4 +26,24 @@ class RoleTest extends TestCase
         $usuario = Usuario::factory()->create(['role_id' => $role->id]);
         $this->assertTrue($role->usuarios->contains($usuario));
     }
+
+    public function test_role_can_be_updated()
+    {
+        $role = Role::factory()->create();
+        $role->name = 'Updated Role';
+        $role->save();
+        $this->assertDatabaseHas('roles', [
+            'id' => $role->id,
+            'name' => 'Updated Role',
+        ]);
+    }
+
+    public function test_role_can_be_deleted()
+    {
+        $role = Role::factory()->create();
+        $role->delete();
+        $this->assertDatabaseMissing('roles', [
+            'id' => $role->id,
+        ]);
+    }
 }

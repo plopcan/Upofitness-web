@@ -35,4 +35,41 @@ class ValorationTest extends TestCase
         // Limpia la tabla si es necesario:
         User::truncate();
     }
+
+    public function test_valoration_can_be_updated_in_mongodb()
+    {
+        config(['database.default' => 'mysql']);
+        $user = User::factory()->create();
+        $product = Product::factory()->create();
+
+        config(['database.default' => 'mongodb']);
+        $valoration = Valoration::factory()->create([
+            'usuario_id' => $user->id,
+            'producto_id' => $product->id,
+            'valor' => 3,
+        ]);
+        $valoration->valor = 5;
+        $valoration->save();
+        $this->assertEquals(5, Valoration::find($valoration->_id)->valor);
+
+        Valoration::raw()->deleteMany([]);
+    }
+
+    public function test_valoration_can_be_deleted_in_mongodb()
+    {
+        config(['database.default' => 'mysql']);
+        $user = User::factory()->create();
+        $product = Product::factory()->create();
+
+        config(['database.default' => 'mongodb']);
+        $valoration = Valoration::factory()->create([
+            'usuario_id' => $user->id,
+            'producto_id' => $product->id,
+        ]);
+        $id = $valoration->_id;
+        $valoration->delete();
+        $this->assertNull(Valoration::find($id));
+
+        Valoration::raw()->deleteMany([]);
+    }
 }

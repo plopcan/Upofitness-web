@@ -34,4 +34,24 @@ class WishlistTest extends TestCase
         $wishlist->products()->attach($product->id);
         $this->assertTrue($wishlist->products->contains($product));
     }
+
+    public function test_wishlist_can_be_updated()
+    {
+        $wishlist = Wishlist::factory()->create();
+        $wishlist->usuario_id = Usuario::factory()->create()->id;
+        $wishlist->save();
+        $this->assertDatabaseHas('wishlists', [
+            'id' => $wishlist->id,
+            'usuario_id' => $wishlist->usuario_id,
+        ]);
+    }
+
+    public function test_wishlist_can_be_deleted()
+    {
+        $wishlist = Wishlist::factory()->create();
+        $wishlist->delete();
+        $this->assertDatabaseMissing('wishlists', [
+            'id' => $wishlist->id,
+        ]);
+    }
 }
