@@ -5,7 +5,7 @@ https://www.mongodb.com/try/download/community
 
 2. Añadir el direcctorio "C:\Program Files\MongoDB\Server\8.0\bin" a las variables de entorno
 
-4. Descargar la extension dll para php. Se puede ver cual es la correcta con php -i | findstr "Thread" seguido de php -v
+4. Descargar la extension dll para php de la pagina https://pecl.php.net/package/mongodb/2.0.0/windows . Se puede ver cual es la correcta con php -i | findstr "Thread" seguido de php -v
 
 5. añadir el archivo .dll a la carpeta ext de xampp/php y modificar php.ini
     Si existe la linea "extension=php_mongodb.dll" descomentarla y si no añadirla al final del archivo
