@@ -34,4 +34,24 @@ class CartTest extends TestCase
         $cart->products()->attach($product->id, ['quantity' => 2]);
         $this->assertTrue($cart->products->contains($product));
     }
+
+    public function test_cart_can_be_updated()
+    {
+        $cart = Cart::factory()->create();
+        $cart->usuario_id = Usuario::factory()->create()->id;
+        $cart->save();
+        $this->assertDatabaseHas('carts', [
+            'id' => $cart->id,
+            'usuario_id' => $cart->usuario_id,
+        ]);
+    }
+
+    public function test_cart_can_be_deleted()
+    {
+        $cart = Cart::factory()->create();
+        $cart->delete();
+        $this->assertDatabaseMissing('carts', [
+            'id' => $cart->id,
+        ]);
+    }
 }

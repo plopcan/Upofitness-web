@@ -24,4 +24,24 @@ class ProductTest extends TestCase
         $product = Product::factory()->create();
         $this->assertTrue(method_exists($product, 'categories'));
     }
+
+    public function test_product_can_be_updated()
+    {
+        $product = Product::factory()->create();
+        $product->name = 'Updated Name';
+        $product->save();
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'name' => 'Updated Name',
+        ]);
+    }
+
+    public function test_product_can_be_deleted()
+    {
+        $product = Product::factory()->create();
+        $product->delete();
+        $this->assertDatabaseMissing('products', [
+            'id' => $product->id,
+        ]);
+    }
 }

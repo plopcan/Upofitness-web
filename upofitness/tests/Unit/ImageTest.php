@@ -25,4 +25,24 @@ class ImageTest extends TestCase
         $image = Image::factory()->create();
         $this->assertInstanceOf(Product::class, $image->product);
     }
+
+    public function test_image_can_be_updated()
+    {
+        $image = Image::factory()->create();
+        $image->url = 'http://new-url.com/image.jpg';
+        $image->save();
+        $this->assertDatabaseHas('images', [
+            'id' => $image->id,
+            'url' => 'http://new-url.com/image.jpg',
+        ]);
+    }
+
+    public function test_image_can_be_deleted()
+    {
+        $image = Image::factory()->create();
+        $image->delete();
+        $this->assertDatabaseMissing('images', [
+            'id' => $image->id,
+        ]);
+    }
 }

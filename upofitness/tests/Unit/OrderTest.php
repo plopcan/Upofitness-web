@@ -34,4 +34,24 @@ class OrderTest extends TestCase
         $this->assertInstanceOf(Product::class, $order->product);
         $this->assertEquals($order->product_id, $order->product->id);
     }
+
+    public function test_order_can_be_updated()
+    {
+        $order = Order::factory()->create();
+        $order->status = 'updated';
+        $order->save();
+        $this->assertDatabaseHas('orders', [
+            'id' => $order->id,
+            'status' => 'updated',
+        ]);
+    }
+
+    public function test_order_can_be_deleted()
+    {
+        $order = Order::factory()->create();
+        $order->delete();
+        $this->assertDatabaseMissing('orders', [
+            'id' => $order->id,
+        ]);
+    }
 }
