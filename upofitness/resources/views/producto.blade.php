@@ -15,10 +15,8 @@
                 <h1 class="text-center">Upofitness</h1>
                 <nav>
                     <a href="{{ route('welcome') }}" class="btn btn-primary link-button">Inicio</a>
+                    <a href="{{ route('categories.index') }}" class="btn btn-primary link-button">Categorías</a>
                     @auth
-                        @if(Auth::user()->role_id == 2)
-                            <a href="{{ route('categories.index') }}" class="btn btn-primary link-button">Categorías</a>
-                        @endif
                         <a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">Carrito</a>
                         <a href="{{ route('wishlist.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">Lista de Deseos</a>
                         
@@ -167,7 +165,7 @@
             
             <!-- Pagination -->
             <div class="mt-4">
-                {{ $products->links('pagination::simple-bootstrap-4') }}
+                {{ $products->links() }}
             </div>
 
             <!-- El formulario para subir imágenes debe estar dentro de una página de detalle de producto -->

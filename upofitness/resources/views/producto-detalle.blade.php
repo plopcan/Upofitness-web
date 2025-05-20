@@ -61,29 +61,33 @@
                 </div>
             </div>
             
-            <div class="mt-4">
-                <h3>Añadir imagen al producto</h3>
-                <form action="{{ route('products.images.store', $product->id) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group mb-3">
-                        <label for="image">Seleccionar imagen</label>
-                        <input type="file" name="image" id="image" class="form-control">
+            @auth
+                @if(Auth::user()->role && Auth::user()->role->name === 'administrador')
+                    <div class="mt-4">
+                        <h3>Añadir imagen al producto</h3>
+                        <form action="{{ route('products.images.store', $product->id) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group mb-3">
+                                <label for="image">Seleccionar imagen</label>
+                                <input type="file" name="image" id="image" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Subir imagen</button>
+                        </form>
                     </div>
-                    <button type="submit" class="btn btn-primary">Subir imagen</button>
-                </form>
-            </div>
-            
-            <div class="mt-4">
-                <h3>Subir múltiples imágenes</h3>
-                <form action="{{ route('products.images.storeMultiple', $product->id) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group mb-3">
-                        <label for="images">Seleccionar imágenes</label>
-                        <input type="file" name="images[]" id="images" class="form-control" multiple>
+                    
+                    <div class="mt-4">
+                        <h3>Subir múltiples imágenes</h3>
+                        <form action="{{ route('products.images.storeMultiple', $product->id) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group mb-3">
+                                <label for="images">Seleccionar imágenes</label>
+                                <input type="file" name="images[]" id="images" class="form-control" multiple>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Subir imágenes</button>
+                        </form>
                     </div>
-                    <button type="submit" class="btn btn-primary">Subir imágenes</button>
-                </form>
-            </div>
+                @endif
+            @endauth
         </div>
     </main>
     
