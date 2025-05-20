@@ -167,7 +167,7 @@
             
             <!-- Pagination -->
             <div class="mt-4">
-                {{ $products->links('pagination::simple-bootstrap-4') }}
+                {{ $products->links() }}
             </div>
 
             <!-- El formulario para subir imágenes debe estar dentro de una página de detalle de producto -->

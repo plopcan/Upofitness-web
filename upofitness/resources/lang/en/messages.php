@@ -13,7 +13,7 @@ return [
     'welcome_user' => 'Welcome, :name',
     'welcome_guest' => 'Welcome to Upofitness',
     'main_page_user' => 'This is the main page for users.',
-    'main_page_guest' => 'Manage people, users, and books efficiently.',
+    'main_page_guest' => 'Discover the best sports supplements to achieve your fitness goals.',
     'welcome_to_upofitness' => 'Welcome to Upofitness',
     'manage_people' => 'Manage people, users, and books efficiently.',
     'about_us' => 'About Us',
