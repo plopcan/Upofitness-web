@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Usuario; // Asegúrate de importar el modelo correcto
 
 class ProductController extends Controller
 {
@@ -17,7 +18,20 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        return view('producto-detalle', compact('product'));
+        $valoraciones = \App\Models\Valoration::where('producto_id', (string)$product->id)
+            ->orderByDesc('created_at')
+            ->paginate(5);
+
+        // Cargar usuario e imagen
+        foreach ($valoraciones as $valoracion) {
+            $valoracion->usuario = \App\Models\Usuario::on('mysql')->with('image')->find($valoracion->usuario_id);
+        }
+
+        // Calcular puntuación media SIN sobrescribir $valoraciones
+        $valoracionesAll = \App\Models\Valoration::where('producto_id', (string)$product->id)->get();
+        $media = $valoracionesAll->count() > 0 ? $valoracionesAll->avg('puntuacion') : 0;
+
+        return view('producto-detalle', compact('product', 'valoraciones', 'media'));
     }
 
     public function create()

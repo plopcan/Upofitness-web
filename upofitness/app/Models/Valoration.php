@@ -18,4 +18,5 @@ class Valoration extends Model
         'puntuacion',
         'comentario',
     ];
+
 }

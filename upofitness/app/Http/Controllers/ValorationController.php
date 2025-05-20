@@ -26,6 +26,7 @@ class ValorationController extends Controller
             ]
         );
 
-        return redirect()->route('products.index')->with('success', 'Valoration saved successfully');
+        return redirect()->route('products.show', ['product' => $data['producto_id']])
+            ->with('success', 'Valoration saved successfully');
     }
 }
