@@ -37,6 +37,10 @@ class Order extends Model
     {
         return $this->belongsTo(PromotionCode::class);
     }
+    public function usuario()
+    {
+        return $this->belongsTo(\App\Models\Usuario::class, 'usuario_id');
+    }
     public function showByUserId($id)
     {
         $orders = Order::with('product')->where('usuario_id', $id)->get();

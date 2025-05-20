@@ -1,0 +1,24 @@
+Instrucciones para mongo:
+
+1. Descargar de la pagina oficial
+https://www.mongodb.com/try/download/community
+
+2. Añadir el direcctorio "C:\Program Files\MongoDB\Server\8.0\bin" a las variables de entorno
+
+4. Descargar la extension dll para php de la pagina https://pecl.php.net/package/mongodb/2.0.0/windows . Se puede ver cual es la correcta con php -i | findstr "Thread" seguido de php -v
+
+5. añadir el archivo .dll a la carpeta ext de xampp/php y modificar php.ini
+    Si existe la linea "extension=php_mongodb.dll" descomentarla y si no añadirla al final del archivo
+
+6. Reiniciar apache e instalar la extension para laravel
+composer require jenssegers/mongodb
+
+7. Por ultimo actualizar compose
+    composer dump-autoload
+
+8. Actualizar .env, añadiendo: 
+DB_MONGO_HOST=127.0.0.1
+DB_MONGO_HOST_PORT=27017
+DB_MONGO_DATABASE=valorations
+DB_MONGO_USERNAME=
+DB_MONGO_PASSWORD=
