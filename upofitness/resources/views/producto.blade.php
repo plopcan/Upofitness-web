@@ -1,34 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos | Upofitness</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="icon" type="image/png" href="{{ asset('storage/logo.png') }}">
 </head>
-<body>
-    <!-- Navbar -->
+<body class="d-flex flex-column min-vh-100">
+    <!-- Header -->
     <header class="navbar-style-7 position-relative text-white">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-3">
-                <h1 class="text-center">Upofitness</h1>
+                <a href="{{ url('/') }}">
+                    <img src="{{ asset('storage/logo.png') }}" alt="Upofitness Logo" class="logo">
+                </a>
                 <nav>
                     <a href="{{ route('welcome') }}" class="btn btn-primary link-button">Inicio</a>
                     @auth
                         @if(Auth::user()->role_id == 2)
                             <a href="{{ route('categories.index') }}" class="btn btn-primary link-button">Categorías</a>
+                            <a href="{{ route('productDiscount.index') }}" class="btn btn-primary link-button">Descuentos</a>
+                            <a href="{{ route('promotion.index') }}" class="btn btn-primary link-button">Promociones</a>
+                            <a href="{{ route('admin.topWishlistProducts') }}" class="btn btn-primary link-button">Top Favoritos</a>
                         @endif
-                        <a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">Carrito</a>
-                        <a href="{{ route('wishlist.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">Lista de Deseos</a>
+                        <a href="{{ route('cart.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">
+                            <i class="bi bi-cart3"></i> Carrito
+                        </a>
+                        <a href="{{ route('wishlist.showByUserId', ['id' => Auth::user()->id]) }}" class="btn btn-primary link-button">
+                            <i class="bi bi-heart"></i> Favoritos
+                        </a>
+                        
+                        <div class="dropdown d-inline-block">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle me-1"></i> 
+                                {{ Auth::user()->name }}
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Mi perfil</a></li>
+                                <!-- Ruta corregida para pedidos o eliminada si no existe -->
+                                <li><a class="dropdown-item" href="{{ route('welcome') }}">Mis compras</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item text-danger">
+                                            <i class="bi bi-box-arrow-right me-1"></i> Cerrar sesión
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
                         
                         @if(Auth::user()->role_id == 2)
-                            <a href="{{ route('products.create') }}" class="btn btn-success link-button">
+                            <a href="{{ route('products.create') }}" class="btn btn-success link-button ms-2">
                                 <i class="bi bi-plus-circle"></i> Añadir Producto
                             </a>
                         @endif
                     @else
-                        <a href="{{ route('login') }}" class="btn btn-secondary link-button">Iniciar Sesión</a>
+                        <a href="{{ route('login') }}" class="btn btn-outline-light">Iniciar Sesión</a>
+                        <a href="{{ route('register') }}" class="btn btn-light ms-2">Registrarse</a>
                     @endauth
                 </nav>
             </div>
