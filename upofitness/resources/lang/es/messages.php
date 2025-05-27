@@ -13,7 +13,7 @@ return [
     'welcome_user' => 'Bienvenido, :name',
     'welcome_guest' => 'Bienvenido a Upofitness',
     'main_page_user' => 'Esta es la página principal para usuarios.',
-    'main_page_guest' => 'Gestiona personas, usuarios y libros de manera eficiente.',
+    'main_page_guest' => 'Descubre los mejores suplementos deportivos para alcanzar tus objetivos deportivos.',
     'welcome_to_upofitness' => 'Bienvenido a Upofitness',
     'manage_people' => 'Gestiona personas, usuarios y libros de manera eficiente.',
     'about_us' => 'Sobre Nosotros',

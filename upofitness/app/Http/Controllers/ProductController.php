@@ -159,15 +159,20 @@ class ProductController extends Controller
     public function filterByCategory(Request $request)
     {
         $categoryIds = $request->input('categories', []);
-    
-        // Filtrar productos que pertenezcan a las categorías seleccionadas
-        $products = Product::whereHas('categories', function ($query) use ($categoryIds) {
-            $query->whereIn('categories.id', $categoryIds);
-        })->paginate(9);
-    
+
+        if (empty($categoryIds)) {
+            // Si no hay categorías seleccionadas, mostrar todos los productos
+            $products = Product::paginate(9);
+        } else {
+            // Filtrar productos que pertenezcan a las categorías seleccionadas
+            $products = Product::whereHas('categories', function ($query) use ($categoryIds) {
+                $query->whereIn('categories.id', $categoryIds);
+            })->paginate(9);
+        }
+
         // Obtener todas las categorías para el filtro
         $categories = Category::all();
-    
+
         return view('producto', compact('products', 'categories'));
     }
 }
